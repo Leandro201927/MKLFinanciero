@@ -30,7 +30,7 @@
                             <div
                                 class="icon icon-shape bg-white shadow shadow-xs text-center border-radius-md d-flex align-items-center justify-content-center mb-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="19" width="19"
-                                    viewBox="0 0 24 24" fill="currentColor"">
+                                    viewBox="0 0 24 24" fill="currentColor">
                                     <path
                                         d=" M19.5 22.5a3 3 0 003-3v-8.174l-6.879 4.022 3.485 1.876a.75.75 0 01-.712 1.321l-5.683-3.06a1.5 1.5 0 00-1.422 0l-5.683 3.06a.75.75 0 01-.712-1.32l3.485-1.877L1.5 11.326V19.5a3 3 0 003 3h15z" />
                                     <path

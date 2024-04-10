@@ -1,6 +1,6 @@
 <!--
 =========================================================
-* Corporate UI - v1.0.0
+* MKL Financiero - v1.0.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/corporate-ui
@@ -20,13 +20,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @if (config('app.is_demo'))
         <title itemprop="name">
-            Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION
+            MKL Financiero Dashboard Laravel by Creative Tim & UPDIVISION
         </title>
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@CreativeTim" />
         <meta name="twitter:creator" content="@CreativeTim" />
-        <meta name="twitter:title" content="Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION" />
+        <meta name="twitter:title" content="MKL Financiero Dashboard Laravel by Creative Tim & UPDIVISION" />
         <meta name="twitter:description" content="Fullstack tool for building Laravel apps with hundreds of UI components and
             ready-made CRUDs" />
         <meta name="twitter:image"
@@ -35,10 +35,10 @@
         <meta name="description" content="Fullstack tool for building Laravel apps with hundreds of UI components
             and ready-made CRUDs">
         <meta name="keywords"
-            content="creative tim, updivision, html dashboard, laravel, api, html css dashboard laravel,  Corporate UI Dashboard Laravel,  Corporate UI Laravel,  Corporate Dashboard Laravel, UI Dashboard Laravel, Laravel admin, laravel dashboard, Laravel dashboard, laravel admin, web dashboard, bootstrap 5 dashboard laravel, bootstrap 5, css3 dashboard, bootstrap 5 admin laravel, frontend, responsive bootstrap 5 dashboard, corporate dashboard laravel,  Corporate UI Dashboard Laravel">
+            content="creative tim, updivision, html dashboard, laravel, api, html css dashboard laravel,  MKL Financiero Dashboard Laravel,  MKL Financiero Laravel,  Corporate Dashboard Laravel, UI Dashboard Laravel, Laravel admin, laravel dashboard, Laravel dashboard, laravel admin, web dashboard, bootstrap 5 dashboard laravel, bootstrap 5, css3 dashboard, bootstrap 5 admin laravel, frontend, responsive bootstrap 5 dashboard, corporate dashboard laravel,  MKL Financiero Dashboard Laravel">
         <meta property="og:app_id" content="655968634437471">
         <meta property="og:type" content="product">
-        <meta property="og:title" content="Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION">
+        <meta property="og:title" content="MKL Financiero Dashboard Laravel by Creative Tim & UPDIVISION">
         <meta property="og:url" content="https://www.creative-tim.com/live/corporate-ui-dashboard-laravel">
         <meta property="og:image"
             content="https://s3.amazonaws.com/creativetim_bucket/products/737/original/corporate-ui-dashboard-laravel.jpg?1695288974">
@@ -52,7 +52,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        Corporate UI by Creative Tim & UPDIVISION
+        MKL Financiero by Creative Tim & UPDIVISION
     </title>
     <!--     Fonts and icons     -->
     <link
@@ -87,7 +87,7 @@
     </script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Corporate UI Dashboard: parallax effects, scripts for the example pages etc -->
+    <!-- Control Center for MKL Financiero Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/corporate-ui-dashboard.min.js?v=1.0.0"></script>
 </body>
 

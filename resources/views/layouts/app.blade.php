@@ -1,6 +1,6 @@
 <!--
 =========================================================
-* Corporate UI - v1.0.0
+* MKL Financiero - v1.0.0
 =========================================================
 
 * Product Page: https://www.creative-tim.com/product/corporate-ui
@@ -20,13 +20,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     @if (config('app.is_demo'))
         <title itemprop="name">
-            Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION
+            MKL Financiero Dashboard Laravel by Creative Tim & UPDIVISION
         </title>
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@CreativeTim" />
         <meta name="twitter:creator" content="@CreativeTim" />
-        <meta name="twitter:title" content="Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION" />
+        <meta name="twitter:title" content="MKL Financiero Dashboard Laravel by Creative Tim & UPDIVISION" />
         <meta name="twitter:description" content="Fullstack tool for building Laravel apps with hundreds of UI components and
             ready-made CRUDs" />
         <meta name="twitter:image"
@@ -35,10 +35,10 @@
         <meta name="description" content=""Fullstack tool for building Laravel apps with hundreds of UI components
             and ready-made CRUDs">
         <meta name="keywords"
-            content="creative tim, updivision, html dashboard, laravel, api, html css dashboard laravel,  Corporate UI Dashboard Laravel,  Corporate UI Laravel,  Corporate Dashboard Laravel, UI Dashboard Laravel, Laravel admin, laravel dashboard, Laravel dashboard, laravel admin, web dashboard, bootstrap 5 dashboard laravel, bootstrap 5, css3 dashboard, bootstrap 5 admin laravel, frontend, responsive bootstrap 5 dashboard, corporate dashboard laravel,  Corporate UI Dashboard Laravel">
+            content="creative tim, updivision, html dashboard, laravel, api, html css dashboard laravel,  MKL Financiero Dashboard Laravel,  MKL Financiero Laravel,  Corporate Dashboard Laravel, UI Dashboard Laravel, Laravel admin, laravel dashboard, Laravel dashboard, laravel admin, web dashboard, bootstrap 5 dashboard laravel, bootstrap 5, css3 dashboard, bootstrap 5 admin laravel, frontend, responsive bootstrap 5 dashboard, corporate dashboard laravel,  MKL Financiero Dashboard Laravel">
         <meta property="og:app_id" content="655968634437471">
         <meta property="og:type" content="product">
-        <meta property="og:title" content="Corporate UI Dashboard Laravel by Creative Tim & UPDIVISION">
+        <meta property="og:title" content="MKL Financiero Dashboard Laravel by Creative Tim & UPDIVISION">
         <meta property="og:url" content="https://www.creative-tim.com/live/corporate-ui-dashboard-laravel">
         <meta property="og:image"
             content="https://s3.amazonaws.com/creativetim_bucket/products/737/original/corporate-ui-dashboard-laravel.jpg?1695288974">
@@ -49,23 +49,26 @@
         <meta property="product:category" content="Admin &amp; Dashboards">
         <meta name="data-turbolinks-track" content="false">
     @endif
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    
+    
+
+    <link rel="apple-touch-icon" sizes="76x76" href=" {{ asset('/img/apple-icon.png') }} ">
+    <link rel="icon" type="image/png" href=" {{ asset('/img/favicon.png') }} ">
     <title>
-        Corporate UI by Creative Tim & UPDIVISION
+        MKL Financiero by Creative Tim & UPDIVISION
     </title>
     <!--     Fonts and icons     -->
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Noto+Sans:300,400,500,600,700,800|PT+Mono:300,400,500,600,700"
         rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href=" {{ asset('/css/nucleo-icons.css') }} " rel="stylesheet" />
+    <link href=" {{ asset('/css/nucleo-svg.css') }} " rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/349ee9c857.js" crossorigin="anonymous"></script>
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href=" {{ asset('/css/nucleo-svg.css') }} " rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/corporate-ui-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link id="pagestyle" href=" {{ asset('/css/corporate-ui-dashboard.css?v=1.0.0') }} " rel="stylesheet" />
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -95,7 +98,7 @@
         <div class="card shadow-lg ">
             <div class="card-header pb-0 pt-3 ">
                 <div class="float-start">
-                    <h5 class="mt-3 mb-0">Corporate UI Configurator</h5>
+                    <h5 class="mt-3 mb-0">MKL Financiero Configurator</h5>
                     <p>See our dashboard options.</p>
                 </div>
                 <div class="float-end mt-4">
@@ -169,12 +172,12 @@
         </div>
     </div>
     <!--   Core JS Files   -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/chartjs.min.js"></script>
-    <script src="../assets/js/plugins/swiper-bundle.min.js" type="text/javascript"></script>
+    <script src=" {{ asset('/js/core/popper.min.js') }} "></script>
+    <script src=" {{ asset('/js/core/bootstrap.min.js') }} "></script>
+    <script src=" {{ asset('/js/plugins/perfect-scrollbar.min.js') }} "></script>
+    <script src=" {{ asset('/js/plugins/smooth-scrollbar.min.js') }} "></script>
+    <script src=" {{ asset('/js/plugins/chartjs.min.js') }} "></script>
+    <script src=" {{ asset('/js/plugins/swiper-bundle.min.js') }} " type="text/javascript"></script>
     <script>
         if (document.getElementsByClassName('mySwiper')) {
             var swiper = new Swiper(".mySwiper", {
@@ -440,8 +443,8 @@
     </script>
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Corporate UI Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/corporate-ui-dashboard.min.js?v=1.0.0"></script>
+    <!-- Control Center for MKL Financiero Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src=" {{ asset('/js/corporate-ui-dashboard.min.js?v=1.0.0') }} "></script>
 </body>
 
 </html>

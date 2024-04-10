@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -26,6 +27,15 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
+
+Route::get('/producto', [ProductoController::class, 'index'])->name('producto')->middleware('auth');
+Route::get('/producto/{producto}/edit', [ProductoController::class, 'edit'])->name('producto.edit')->middleware('auth');
+Route::put('/producto/{producto}', [ProductoController::class, 'update'])->name('producto.update')->middleware('auth');
+Route::delete('/producto/{producto}', [ProductoController::class, 'destroy'])->name('producto.destroy')->middleware('auth');
+Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create')->middleware('auth');
+Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store')->middleware('auth');
+
+// Route::resource('producto', ProductoController::class)->middleware('auth');
 
 Route::get('/tables', function () {
     return view('tables');
