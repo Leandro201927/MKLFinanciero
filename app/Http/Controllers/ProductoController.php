@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 
+use Illuminate\Support\Facades\Auth;
+
 class ProductoController extends Controller
 {
     public function __construct()
@@ -30,7 +32,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        return view('Producto.create');
+        return view('productos.create');
     }
 
     /**
@@ -44,13 +46,13 @@ class ProductoController extends Controller
         $producto = new Producto;
     
         // Actualiza los campos del producto con los datos del $request
-        $producto->UsuarioID = $request->UsuarioID;
+        $producto->UsuarioID = Auth::id();
         $producto->Precio = $request->Precio;
         $producto->Nombre = $request->Nombre;
     
         $producto->save();
     
-        return redirect()->route('producto.index'); // -> route no apunta a una vista, sino al controlador
+        return redirect()->route('producto'); // -> route no apunta a una vista, sino al controlador
     }
 
     /**
@@ -94,7 +96,7 @@ class ProductoController extends Controller
     
         $producto->save();
     
-        return redirect()->route('producto.index'); // -> route no apunta a una vista, sino al controlador
+        return redirect()->route('producto'); // -> route no apunta a una vista, sino al controlador
     }
 
     /**
@@ -108,6 +110,6 @@ class ProductoController extends Controller
         $producto = Producto::find($id); // -> ::find($id) -> SELECT * FROM 'producto' WHERE id = $id;
         $producto->delete(); // -> DELETE FROM 'producto' WHERE ID = $id;
 
-        return redirect()->route('producto.index');
+        return redirect()->route('producto');
     }
 }

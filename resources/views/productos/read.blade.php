@@ -22,8 +22,8 @@
                                     <p class="text-sm mb-sm-0 mb-2">Estos son los detalles sobre los productos (recientes) añadidos.</p>
                                 </div>
                                 <div class="ms-auto d-flex">
-                                    <button type="button" class="btn btn-sm btn-white mb-0 me-2">
-                                        Ver reporte
+                                    <button type="button" onclick="window.location.href='{{ route('producto.create') }}'" class="btn btn-sm btn-white mb-0 me-2">
+                                        Crear producto
                                     </button>
                                     <button type="button"
                                         class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0">
