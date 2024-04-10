@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\VentaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
@@ -34,6 +35,13 @@ Route::put('/producto/{producto}', [ProductoController::class, 'update'])->name(
 Route::delete('/producto/{producto}', [ProductoController::class, 'destroy'])->name('producto.destroy')->middleware('auth');
 Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create')->middleware('auth');
 Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store')->middleware('auth');
+
+Route::get('/venta', [VentaController::class, 'index'])->name('venta')->middleware('auth');
+Route::get('/venta/{venta}/edit', [VentaController::class, 'edit'])->name('venta.edit')->middleware('auth');
+Route::put('/venta/{venta}', [VentaController::class, 'update'])->name('venta.update')->middleware('auth');
+Route::delete('/venta/{venta}', [VentaController::class, 'destroy'])->name('venta.destroy')->middleware('auth');
+Route::get('/venta/create', [VentaController::class, 'create'])->name('venta.create')->middleware('auth');
+Route::post('/venta', [VentaController::class, 'store'])->name('venta.store')->middleware('auth');
 
 // Route::resource('producto', ProductoController::class)->middleware('auth');
 
