@@ -1,3 +1,48 @@
+@if(isset($pdf))
+<div style="color: black;">
+    <table class="table align-items-center mb-0">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
+                <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
+                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Descripcion</th>
+                <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Fecha_Venta</th>
+                <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($ventas as $venta)
+                <tr>
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <div class="d-flex flex-column justify-content-center ms-1">
+                                <h6 class="mb-0 text-sm font-weight-semibold">{{ $venta->ID }}</h6>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="text-sm text-dark font-weight-semibold mb-0">{{ $venta->UsuarioID }}</p>
+                    </td>
+                    <td class="align-middle text-center text-sm">
+                        <span class="text-secondary text-sm font-weight-normal">{{ $venta->Descripcion }}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                        <span class="text-secondary text-sm font-weight-normal">{{ $venta-$_COOKIE>Fecha_Venta }}</span>
+                    </td>
+                    <td class="align-middle">
+                        <a href="{{ route('venta.edit', $venta->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
+                        <form action="{{ route('venta.destroy', $venta->ID) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@else
 <x-app-layout>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
@@ -26,6 +71,7 @@
                                         Crear venta
                                     </button>
                                     <button type="button"
+                                        onclick="window.location.href='{{url('imprimirVenta')}}'"
                                         class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0">
                                         <span class="btn-inner--icon">
                                             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
@@ -119,3 +165,4 @@
     </main>
 
 </x-app-layout>
+@endif

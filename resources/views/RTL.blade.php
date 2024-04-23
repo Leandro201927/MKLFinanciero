@@ -230,7 +230,7 @@
                                     <a class="dropdown-item border-radius-md" href="javascript:;">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
-                                                <img src="../assets/img/team-2.jpg"
+                                                <img src="../img/team-2.jpg"
                                                     class="avatar avatar-sm border-radius-sm  ms-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
@@ -250,7 +250,7 @@
                                     <a class="dropdown-item border-radius-md" href="javascript:;">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
-                                                <img src="../assets/img/small-logos/logo-google.svg"
+                                                <img src="../img/small-logos/logo-google.svg"
                                                     class="avatar avatar-sm border-radius-sm bg-gradient-dark p-2  ms-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
@@ -309,7 +309,7 @@
                         </li>
                         <li class="nav-item ps-2 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0">
-                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm" alt="avatar" />
+                                <img src="../img/team-2.jpg" class="avatar avatar-sm" alt="avatar" />
                             </a>
                         </li>
                     </ul>
@@ -357,7 +357,7 @@
                                 <div
                                     class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                     <div class="full-background bg-cover"
-                                        style="background-image: url('../assets/img/img-2.jpg')"></div>
+                                        style="background-image: url('../img/img-2.jpg')"></div>
                                     <div class="card-body text-start px-3 py-0 w-100">
                                         <div class="row mt-12">
                                             <div class="col-3 mt-auto text-end">
@@ -378,7 +378,7 @@
                             <div
                                 class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                 <div class="full-background bg-cover"
-                                    style="background-image: url('../assets/img/img-1.jpg')"></div>
+                                    style="background-image: url('../img/img-1.jpg')"></div>
                                 <div class="card-body text-start px-3 py-0 w-100">
                                     <div class="row mt-12">
                                         <div class="col-3 mt-auto text-end">
@@ -398,7 +398,7 @@
                             <div
                                 class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                 <div class="full-background bg-cover"
-                                    style="background-image: url('../assets/img/img-3.jpg')"></div>
+                                    style="background-image: url('../img/img-3.jpg')"></div>
                                 <div class="card-body text-start px-3 py-0 w-100">
                                     <div class="row mt-12">
                                         <div class="col-3 mt-auto text-end">
@@ -418,7 +418,7 @@
                             <div
                                 class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                 <div class="full-background bg-cover"
-                                    style="background-image: url('../assets/img/img-4.jpg')"></div>
+                                    style="background-image: url('../img/img-4.jpg')"></div>
                                 <div class="card-body text-start px-3 py-0 w-100">
                                     <div class="row mt-12">
                                         <div class="col-3 mt-auto text-end">
@@ -438,7 +438,7 @@
                             <div
                                 class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                 <div class="full-background bg-cover"
-                                    style="background-image: url('../assets/img/img-5.jpg')"></div>
+                                    style="background-image: url('../img/img-5.jpg')"></div>
                                 <div class="card-body text-start px-3 py-0 w-100">
                                     <div class="row mt-12">
                                         <div class="col-3 mt-auto text-end">
@@ -458,7 +458,7 @@
                             <div
                                 class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                 <div class="full-background bg-cover"
-                                    style="background-image: url('../assets/img/img-1.jpg')"></div>
+                                    style="background-image: url('../img/img-1.jpg')"></div>
                                 <div class="card-body text-start px-3 py-0 w-100">
                                     <div class="row mt-12">
                                         <div class="col-3 mt-auto text-end">
@@ -478,7 +478,7 @@
                             <div
                                 class="card card-background shadow-none border-radius-xl card-background-after-none align-items-start mb-0">
                                 <div class="full-background bg-cover"
-                                    style="background-image: url('../assets/img/img-1.jpg')"></div>
+                                    style="background-image: url('../img/img-1.jpg')"></div>
                                 <div class="card-body text-start px-3 py-0 w-100">
                                     <div class="row mt-12">
                                         <div class="col-3 mt-auto text-end">
@@ -598,7 +598,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 ms-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-spotify.svg"
+                                                        <img src="../img/small-logos/logo-spotify.svg"
                                                             class="w-80" alt="spotify">
                                                     </div>
                                                     <div class="my-auto">
@@ -616,7 +616,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/visa.png" class="w-90 mx-auto"
+                                                        <img src="../img/logos/visa.png" class="w-90 mx-auto"
                                                             alt="visa">
                                                     </div>
                                                     <div class="me-2">
@@ -641,7 +641,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 ms-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-invision.svg"
+                                                        <img src="../img/small-logos/logo-invision.svg"
                                                             class="w-80" alt="invision">
                                                     </div>
                                                     <div class="my-auto">
@@ -659,7 +659,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/mastercard.png"
+                                                        <img src="../img/logos/mastercard.png"
                                                             class="w-90 mx-auto" alt="mastercard">
                                                     </div>
                                                     <div class="me-2">
@@ -684,7 +684,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 ms-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-jira.svg"
+                                                        <img src="../img/small-logos/logo-jira.svg"
                                                             class="w-80" alt="jira">
                                                     </div>
                                                     <div class="my-auto">
@@ -702,7 +702,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/mastercard.png"
+                                                        <img src="../img/logos/mastercard.png"
                                                             class="w-90 mx-auto" alt="mastercard">
                                                     </div>
                                                     <div class="me-2">
@@ -727,7 +727,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 ms-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-slack.svg"
+                                                        <img src="../img/small-logos/logo-slack.svg"
                                                             class="w-80" alt="slack">
                                                     </div>
                                                     <div class="my-auto">
@@ -745,7 +745,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/visa.png" class="w-90 mx-auto"
+                                                        <img src="../img/logos/visa.png" class="w-90 mx-auto"
                                                             alt="visa">
                                                     </div>
                                                     <div class="me-2">

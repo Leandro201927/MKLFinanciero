@@ -25,6 +25,15 @@ class VentaController extends Controller
         return view('ventas.read', compact('ventas'));
     }
 
+    public function imprimirVenta(Request $request)
+    {
+        $ventas = Venta::orderBy('id', 'ASC')->get();
+        $pdf = \PDF::loadView('ventas.read', ['ventas' => $ventas, 'pdf' => true]);
+        $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'isJavascriptEnabled' => false, 'isCssFloatEnabled' => false]);
+        $pdf->setPaper('carta', 'A4');
+        return $pdf->stream();
+    }
+
     /**
      * Show the form for creating a new resource.
      *

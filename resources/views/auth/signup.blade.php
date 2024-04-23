@@ -14,7 +14,7 @@
                         <div class="col-md-6">
                             <div class="position-absolute w-40 top-0 start-0 h-100 d-md-block d-none">
                                 <div class="oblique-image position-absolute d-flex fixed-top ms-auto h-100 z-index-0 bg-cover me-n8"
-                                    style="background-image:url('../assets/img/image-sign-up.jpg')">
+                                    style="background-image:url('../img/image-sign-up.jpg')">
                                     <!-- <div class="my-auto text-start max-width-350 ms-7">
                                         <h1 class="mt-3 text-white font-weight-bolder">Comienza tu <br> nuevo viaje.</h1>
                                         <p class="text-white text-lg mt-4 mb-4">Utiliza estos formularios increíbles para iniciar sesión o crear una nueva cuenta en tu proyecto de forma gratuita.</p>
@@ -22,22 +22,22 @@
                                             <div class="avatar-group d-flex">
                                                 <a href="javascript:;" class="avatar avatar-sm rounded-circle"
                                                     data-bs-toggle="tooltip" data-original-title="Jessica Rowland">
-                                                    <img alt="Image placeholder" src="../assets/img/team-3.jpg"
+                                                    <img alt="Image placeholder" src="../img/team-3.jpg"
                                                         class="">
                                                 </a>
                                                 <a href="javascript:;" class="avatar avatar-sm rounded-circle"
                                                     data-bs-toggle="tooltip" data-original-title="Audrey Love">
-                                                    <img alt="Image placeholder" src="../assets/img/team-4.jpg"
+                                                    <img alt="Image placeholder" src="../img/team-4.jpg"
                                                         class="rounded-circle">
                                                 </a>
                                                 <a href="javascript:;" class="avatar avatar-sm rounded-circle"
                                                     data-bs-toggle="tooltip" data-original-title="Michael Lewis">
-                                                    <img alt="Image placeholder" src="../assets/img/marie.jpg"
+                                                    <img alt="Image placeholder" src="../img/marie.jpg"
                                                         class="rounded-circle">
                                                 </a>
                                                 <a href="javascript:;" class="avatar avatar-sm rounded-circle"
                                                     data-bs-toggle="tooltip" data-original-title="Audrey Love">
-                                                    <img alt="Image placeholder" src="../assets/img/team-1.jpg"
+                                                    <img alt="Image placeholder" src="../img/team-1.jpg"
                                                         class="rounded-circle">
                                                 </a>
                                             </div>
@@ -101,7 +101,7 @@
                                             <button type="submit" class="btn btn-dark w-100 mt-4 mb-3">Registrarse</button>
                                             <button type="button" class="btn btn-white btn-icon w-100 mb-3">
                                                 <span class="btn-inner--icon me-1">
-                                                    <img class="w-5" src="../assets/img/logos/google-logo.svg"
+                                                    <img class="w-5" src="../img/logos/google-logo.svg"
                                                         alt="google-logo" />
                                                 </span>
                                                 <span class="btn-inner--text">Registrarse con Google</span>

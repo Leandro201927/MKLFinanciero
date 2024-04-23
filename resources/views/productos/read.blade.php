@@ -1,3 +1,51 @@
+@if(isset($pdf))
+    <!-- Solo renderiza la tabla para el PDF -->
+    <div style="color: black;">
+        <table class="table align-items-center mb-0">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
+                    <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
+                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Nombre</th>
+                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Precio</th>
+                    <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($productos)
+                    @foreach ($productos as $producto)
+                        <tr>
+                            <td>
+                                <div class="d-flex px-2 py-1">
+                                    <div class="d-flex flex-column justify-content-center ms-1">
+                                        <h6 class="mb-0 text-sm font-weight-semibold">{{ $producto->ID }}</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $producto->UsuarioID }}</p>
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <span class="text-secondary text-sm font-weight-normal">{{ $producto->Nombre }}</span>
+                            </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-sm font-weight-normal">{{ $producto->Precio }}</span>
+                            </td>
+                            <td class="align-middle">
+                                <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
+                                <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            </tbody>
+        </table>
+    </div>
+@else
 <x-app-layout>
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
         <x-app.navbar />
@@ -25,8 +73,7 @@
                                     <button type="button" onclick="window.location.href='{{ route('producto.create') }}'" class="btn btn-sm btn-white mb-0 me-2">
                                         Crear producto
                                     </button>
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0">
+                                    <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0" onclick="window.location.href='{{url('imprimirProductos')}}'">
                                         <span class="btn-inner--icon">
                                             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                 fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -80,34 +127,36 @@
                                       </tr>
                                   </thead>
                                   <tbody>
-                                      @foreach ($productos as $producto)
-                                          <tr>
-                                              <td>
-                                                  <div class="d-flex px-2 py-1">
-                                                      <div class="d-flex flex-column justify-content-center ms-1">
-                                                          <h6 class="mb-0 text-sm font-weight-semibold">{{ $producto->ID }}</h6>
-                                                      </div>
-                                                  </div>
-                                              </td>
-                                              <td>
-                                                  <p class="text-sm text-dark font-weight-semibold mb-0">{{ $producto->UsuarioID }}</p>
-                                              </td>
-                                              <td class="align-middle text-center text-sm">
-                                                  <span class="text-secondary text-sm font-weight-normal">{{ $producto->Nombre }}</span>
-                                              </td>
-                                              <td class="align-middle text-center">
-                                                  <span class="text-secondary text-sm font-weight-normal">{{ $producto->Precio }}</span>
-                                              </td>
-                                              <td class="align-middle">
-                                                  <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
-                                                  <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST">
-                                                      @csrf
-                                                      @method('DELETE')
-                                                      <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>
-                                                  </form>
-                                              </td>
-                                          </tr>
-                                      @endforeach
+                                    @if($productos)
+                                        @foreach ($productos as $producto)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex px-2 py-1">
+                                                        <div class="d-flex flex-column justify-content-center ms-1">
+                                                            <h6 class="mb-0 text-sm font-weight-semibold">{{ $producto->ID }}</h6>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0">{{ $producto->UsuarioID }}</p>
+                                                </td>
+                                                <td class="align-middle text-center text-sm">
+                                                    <span class="text-secondary text-sm font-weight-normal">{{ $producto->Nombre }}</span>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <span class="text-secondary text-sm font-weight-normal">{{ $producto->Precio }}</span>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
+                                                    <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                   </tbody>
                               </table>
                             </div>
@@ -119,3 +168,4 @@
     </main>
 
 </x-app-layout>
+@endif

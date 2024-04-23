@@ -2,7 +2,7 @@
 
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <div class="pt-7 pb-6 bg-cover"
-            style="background-image: url('../assets/img/header-orange-purple.jpg'); background-position: bottom;">
+            style="background-image: url('../img/header-orange-purple.jpg'); background-position: bottom;">
         </div>
         <div class="container">
             <div class="card card-body py-2 bg-transparent shadow-none">
@@ -10,7 +10,7 @@
                     <div class="col-auto">
                         <div
                             class="avatar avatar-2xl rounded-circle position-relative mt-n7 border border-gray-100 border-4">
-                            <img src="../assets/img/team-2.jpg" alt="profile_image" class="w-100">
+                            <img src="../img/team-2.jpg" alt="profile_image" class="w-100">
                         </div>
                     </div>
                     <div class="col-auto my-auto">
@@ -179,7 +179,7 @@
                             <ul class="list-group">
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-1">
                                     <div class="avatar avatar-sm rounded-circle me-2">
-                                        <img src="../assets/img/team-1.jpg" alt="kal" class="w-100">
+                                        <img src="../img/team-1.jpg" alt="kal" class="w-100">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm font-weight-semibold">Sarah Lamalo</h6>
@@ -192,7 +192,7 @@
                                 </li>
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-1">
                                     <div class="avatar avatar-sm rounded-circle me-2">
-                                        <img src="../assets/img/marie.jpg" alt="kal" class="w-100">
+                                        <img src="../img/marie.jpg" alt="kal" class="w-100">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm font-weight-semibold">Vicky Hladynets</h6>
@@ -204,7 +204,7 @@
                                 </li>
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-1">
                                     <div class="avatar avatar-sm rounded-circle me-2">
-                                        <img src="../assets/img/team-5.jpg" alt="kal" class="w-100">
+                                        <img src="../img/team-5.jpg" alt="kal" class="w-100">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm font-weight-semibold">Charles Deluvio</h6>
@@ -216,7 +216,7 @@
                                 </li>
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-1">
                                     <div class="avatar avatar-sm rounded-circle me-2">
-                                        <img src="../assets/img/team-4.jpg" alt="kal" class="w-100">
+                                        <img src="../img/team-4.jpg" alt="kal" class="w-100">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm font-weight-semibold">Leio Mclaren</h6>
@@ -228,7 +228,7 @@
                                 </li>
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-1">
                                     <div class="avatar avatar-sm rounded-circle me-2">
-                                        <img src="../assets/img/team-3.jpg" alt="kal" class="w-100">
+                                        <img src="../img/team-3.jpg" alt="kal" class="w-100">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm font-weight-semibold">Mateus Campos</h6>
@@ -240,7 +240,7 @@
                                 </li>
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-1">
                                     <div class="avatar avatar-sm rounded-circle me-2">
-                                        <img src="../assets/img/team-2.jpg" alt="kal" class="w-100">
+                                        <img src="../img/team-2.jpg" alt="kal" class="w-100">
                                     </div>
                                     <div class="d-flex align-items-start flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm font-weight-semibold">Miriam Lore</h6>
@@ -266,7 +266,7 @@
                                     <div
                                         class="card card-background border-radius-xl card-background-after-none align-items-start mb-4">
                                         <div class="full-background bg-cover"
-                                            style="background-image: url('../assets/img/img-8.jpg')"></div>
+                                            style="background-image: url('../img/img-8.jpg')"></div>
                                         <span class="mask bg-dark opacity-1 border-radius-sm"></span>
                                         <div class="card-body text-start p-3 w-100">
                                             <div class="row">
@@ -303,7 +303,7 @@
                                     <div
                                         class="card card-background border-radius-xl card-background-after-none align-items-start mb-4">
                                         <div class="full-background bg-cover"
-                                            style="background-image: url('../assets/img/img-9.jpg')"></div>
+                                            style="background-image: url('../img/img-9.jpg')"></div>
                                         <span class="mask bg-dark opacity-1 border-radius-sm"></span>
                                         <div class="card-body text-start p-3 w-100">
                                             <div class="row">

@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <main class="main-content max-height-vh-100 h-100">
-        <div class="pt-5 pb-6 bg-cover" style="background-image: url('../assets/img/header-blue-purple.jpg')"></div>
+        <div class="pt-5 pb-6 bg-cover" style="background-image: url('../img/header-blue-purple.jpg')"></div>
         <div class="container my-3 py-3">
             <div class="row mt-n6 mb-6">
                 <div class="col-lg-3 col-sm-6">
@@ -493,7 +493,7 @@
                                     <div
                                         class="card card-background card-background-after-none align-items-start mb-2">
                                         <div class="full-background"
-                                            style="background-image: url('../assets/img/curved-images/img-6.jpg')">
+                                            style="background-image: url('../img/curved-images/img-6.jpg')">
                                         </div>
                                         <div class="card-body text-start ps-3 pe-2 pt-2 pb-2 w-100">
                                             <div class="row">
@@ -512,11 +512,11 @@
                                                     <div
                                                         class="blur d-flex flex-column w-80 h-100 py-2 ms-auto border-radius-lg border border-white">
                                                         <div class="text-center w-100">
-                                                            <img src="../assets/img/logos/wifi-white.png"
+                                                            <img src="../img/logos/wifi-white.png"
                                                                 class="w-25 mx-auto" alt="wifi" />
                                                         </div>
                                                         <div class="text-center mt-auto w-100">
-                                                            <img src="../assets/img/logos/mastercard-white.png"
+                                                            <img src="../img/logos/mastercard-white.png"
                                                                 class="w-40 mx-auto mt-2" alt="mastercard" />
                                                         </div>
                                                     </div>
@@ -540,7 +540,7 @@
                                     <div
                                         class="card card-background card-background-after-none align-items-start mb-2">
                                         <div class="full-background"
-                                            style="background-image: url('../assets/img/curved-images/img-7.jpg')">
+                                            style="background-image: url('../img/curved-images/img-7.jpg')">
                                         </div>
                                         <div class="card-body text-start p-2 w-100">
                                             <div class="row">
@@ -550,7 +550,7 @@
                                                         <p class="text-white text-sm w-50 mb-0 font-weight-bold">
                                                             Corporate UI</p>
                                                         <div class="text-end ms-auto w-100 pe-2">
-                                                            <img src="../assets/img/logos/wifi-white.png"
+                                                            <img src="../img/logos/wifi-white.png"
                                                                 class="w-10 ms-auto" alt="wifi" />
                                                         </div>
                                                     </div>
@@ -565,7 +565,7 @@
                                                         class="text-sm font-weight-bolder text-pt-mono ms-2">1234&nbsp;&nbsp;6578&nbsp;&nbsp;9000&nbsp;&nbsp;1234</span>
                                                 </div>
                                                 <div class="col-4 py-2 text-end mt-auto">
-                                                    <img src="../assets/img/logos/visa-white.png"
+                                                    <img src="../img/logos/visa-white.png"
                                                         class="w-50 ms-auto me-3" alt="visa" />
                                                 </div>
                                             </div>

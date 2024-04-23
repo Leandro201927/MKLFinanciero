@@ -23,6 +23,6 @@ class Venta extends Model
 
     public function usuario()
     {
-        return $this->belongsTo('App\Models\Usuario', 'UsuarioID');
+        return $this->belongsTo('App\Models\User', 'UsuarioID');
     }
 }

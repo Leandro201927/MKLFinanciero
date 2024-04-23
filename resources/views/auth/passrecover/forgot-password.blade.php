@@ -53,7 +53,7 @@
                         <div class="col-md-6">
                             <div class="position-absolute w-40 top-0 end-0 h-100 d-md-block d-none">
                                 <div class="oblique-image position-absolute fixed-top ms-auto h-100 z-index-0 bg-cover ms-n8"
-                                    style="background-image:url('../assets/img/image-sign-in.jpg')">
+                                    style="background-image:url('../img/image-sign-in.jpg')">
                                     
                                 </div>
                             </div>

@@ -71,7 +71,7 @@
                                         <td class="align-middle bg-transparent border-bottom">1</td>
                                         <td class="align-middle bg-transparent border-bottom">
                                             <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/team-1.jpg" class="rounded-circle mr-2"
+                                                <img src="../img/team-1.jpg" class="rounded-circle mr-2"
                                                     alt="user1" style="height: 36px; width: 36px;">
                                             </div>
                                         </td>
@@ -88,7 +88,7 @@
                                         <td class="align-middle bg-transparent border-bottom">2</td>
                                         <td class="align-middle bg-transparent border-bottom">
                                             <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/team-2.jpg" class="rounded-circle mr-2"
+                                                <img src="../img/team-2.jpg" class="rounded-circle mr-2"
                                                     alt="user2" style="height: 36px; width: 36px;">
                                             </div>
                                         </td>
@@ -105,7 +105,7 @@
                                         <td class="align-middle bg-transparent border-bottom">3</td>
                                         <td class="align-middle bg-transparent border-bottom">
                                             <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/team-3.jpg" class="rounded-circle mr-2"
+                                                <img src="../img/team-3.jpg" class="rounded-circle mr-2"
                                                     alt="user3" style="height: 36px; width: 36px;">
                                             </div>
                                         </td>
@@ -122,7 +122,7 @@
                                         <td class="align-middle bg-transparent border-bottom">4</td>
                                         <td class="align-middle bg-transparent border-bottom">
                                             <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/team-4.jpg" class="rounded-circle mr-2"
+                                                <img src="../img/team-4.jpg" class="rounded-circle mr-2"
                                                     alt="user4" style="height: 36px; width: 36px;">
                                             </div>
                                         </td>
@@ -140,7 +140,7 @@
                                         <td class="align-middle bg-transparent border-bottom">5</td>
                                         <td class="align-middle bg-transparent border-bottom">
                                             <div class="d-flex justify-content-center align-items-center">
-                                                <img src="../assets/img/marie.jpg" class="rounded-circle mr-2"
+                                                <img src="../img/marie.jpg" class="rounded-circle mr-2"
                                                     alt="user5" style="height: 36px; width: 36px;">
                                             </div>
                                         </td>
@@ -168,7 +168,7 @@
 
 </x-app-layout>
 
-<script src="/assets/js/plugins/datatables.js"></script>
+<script src="/js/plugins/datatables.js"></script>
 <script>
     const dataTableBasic = new simpleDatatables.DataTable("#datatable-search", {
         searchable: true,

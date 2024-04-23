@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use pdf;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 
@@ -21,8 +22,18 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all(); // -> SELECT * FROM 'Producto';
+        $productos = Producto::where('UsuarioID', Auth::id())->get(); // -> SELECT * FROM 'Producto';
         return view('productos.read', compact('productos'));
+    }
+    
+    public function imprimirProducto(Request $request)
+    {
+        // $productos = Producto::orderBy('id', 'ASC')->get();
+        $productos = Producto::where('UsuarioID', Auth::id())->orderBy('id', 'ASC')->get();
+        $pdf = \PDF::loadView('productos.read', ['productos' => $productos, 'pdf' => true]);
+        $pdf->setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true, 'isJavascriptEnabled' => false, 'isCssFloatEnabled' => false]);
+        $pdf->setPaper('carta', 'A4');
+        return $pdf->stream();
     }
 
     /**

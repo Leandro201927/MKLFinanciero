@@ -60,7 +60,7 @@
                                             <button type="submit" class="btn btn-dark w-100 mt-4 mb-3">Iniciar sesión</button>
                                             <button type="button" class="btn btn-white btn-icon w-100 mb-3">
                                                 <span class="btn-inner--icon me-1">
-                                                    <img class="w-5" src="../assets/img/logos/google-logo.svg"
+                                                    <img class="w-5" src="../img/logos/google-logo.svg"
                                                         alt="google-logo" />
                                                 </span>
                                                 <span class="btn-inner--text">Iniciar sesión con Google</span>
@@ -79,7 +79,7 @@
                         <div class="col-md-6">
                             <div class="position-absolute w-40 top-0 end-0 h-100 d-md-block d-none">
                                 <div class="oblique-image position-absolute fixed-top ms-auto h-100 z-index-0 bg-cover ms-n8"
-                                    style="background-image:url('../assets/img/image-sign-in.jpg')">
+                                    style="background-image:url('../img/image-sign-in.jpg')">
                                     
                                 </div>
                             </div>

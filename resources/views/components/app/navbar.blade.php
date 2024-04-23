@@ -65,7 +65,7 @@
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg"
+                                        <img src="../img/team-2.jpg"
                                             class="avatar avatar-sm border-radius-sm  me-3 ">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
@@ -84,7 +84,7 @@
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/small-logos/logo-google.svg"
+                                        <img src="../img/small-logos/logo-google.svg"
                                             class="avatar avatar-sm border-radius-sm bg-gradient-dark p-2  me-3 ">
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
@@ -126,7 +126,7 @@
                 </li>
                 <li class="nav-item ps-2 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0">
-                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm" alt="avatar" />
+                        <img src="../img/team-2.jpg" class="avatar avatar-sm" alt="avatar" />
                     </a>
                 </li>
             </ul>

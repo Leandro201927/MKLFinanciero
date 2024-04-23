@@ -7,7 +7,7 @@
                 <div class="col-12">
                     <div class="card card-background card-background-after-none align-items-start mt-4 mb-5">
                         <div class="full-background"
-                            style="background-image: url('../assets/img/header-blue-purple.jpg')"></div>
+                            style="background-image: url('../img/header-blue-purple.jpg')"></div>
                         <div class="card-body text-start p-4 w-100">
                             <h3 class="text-white mb-2">Collect your benefits 🔥</h3>
                             <p class="mb-4 font-weight-semibold">
@@ -24,7 +24,7 @@
                                 </span>
                                 <span class="btn-inner--text">Watch more</span>
                             </button>
-                            <img src="../assets/img/3d-cube.png" alt="3d-cube"
+                            <img src="../img/3d-cube.png" alt="3d-cube"
                                 class="position-absolute top-0 end-1 w-25 max-width-200 mt-n6 d-sm-block d-none" />
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-2.jpg"
+                                                        <img src="../img/team-2.jpg"
                                                             class="avatar avatar-sm rounded-circle me-2"
                                                             alt="user1">
                                                     </div>
@@ -142,7 +142,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-3.jpg"
+                                                        <img src="../img/team-3.jpg"
                                                             class="avatar avatar-sm rounded-circle me-2"
                                                             alt="user2">
                                                     </div>
@@ -180,7 +180,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-1.jpg"
+                                                        <img src="../img/team-1.jpg"
                                                             class="avatar avatar-sm rounded-circle me-2"
                                                             alt="user3">
                                                     </div>
@@ -219,7 +219,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/marie.jpg"
+                                                        <img src="../img/marie.jpg"
                                                             class="avatar avatar-sm rounded-circle me-2"
                                                             alt="user4">
                                                     </div>
@@ -257,7 +257,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-5.jpg"
+                                                        <img src="../img/team-5.jpg"
                                                             class="avatar avatar-sm rounded-circle me-2"
                                                             alt="user5">
                                                     </div>
@@ -295,7 +295,7 @@
                                             <td>
                                                 <div class="d-flex px-2 py-1">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-6.jpg"
+                                                        <img src="../img/team-6.jpg"
                                                             class="avatar avatar-sm rounded-circle me-2"
                                                             alt="user6">
                                                     </div>
@@ -406,7 +406,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-spotify.svg"
+                                                        <img src="../img/small-logos/logo-spotify.svg"
                                                             class="w-80" alt="spotify">
                                                     </div>
                                                     <div class="my-auto">
@@ -436,7 +436,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/visa.png" class="w-90 mx-auto"
+                                                        <img src="../img/logos/visa.png" class="w-90 mx-auto"
                                                             alt="visa">
                                                     </div>
                                                     <div class="ms-2">
@@ -461,7 +461,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-invision.svg"
+                                                        <img src="../img/small-logos/logo-invision.svg"
                                                             class="w-80" alt="invision">
                                                     </div>
                                                     <div class="my-auto">
@@ -491,7 +491,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/mastercard.png"
+                                                        <img src="../img/logos/mastercard.png"
                                                             class="w-90 mx-auto" alt="mastercard">
                                                     </div>
                                                     <div class="ms-2">
@@ -516,7 +516,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-jira.svg"
+                                                        <img src="../img/small-logos/logo-jira.svg"
                                                             class="w-80" alt="jira">
                                                     </div>
                                                     <div class="my-auto">
@@ -547,7 +547,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/mastercard.png"
+                                                        <img src="../img/logos/mastercard.png"
                                                             class="w-90 mx-auto" alt="mastercard">
                                                     </div>
                                                     <div class="ms-2">
@@ -572,7 +572,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-slack.svg"
+                                                        <img src="../img/small-logos/logo-slack.svg"
                                                             class="w-80" alt="slack">
                                                     </div>
                                                     <div class="my-auto">
@@ -602,7 +602,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/visa.png" class="w-90 mx-auto"
+                                                        <img src="../img/logos/visa.png" class="w-90 mx-auto"
                                                             alt="visa">
                                                     </div>
                                                     <div class="ms-2">
@@ -627,7 +627,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-webdev.svg"
+                                                        <img src="../img/small-logos/logo-webdev.svg"
                                                             class="w-80" alt="webdev">
                                                     </div>
                                                     <div class="my-auto">
@@ -657,7 +657,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/visa.png" class="w-90 mx-auto"
+                                                        <img src="../img/logos/visa.png" class="w-90 mx-auto"
                                                             alt="visa">
                                                     </div>
                                                     <div class="ms-2">
@@ -682,7 +682,7 @@
                                             <td>
                                                 <div class="d-flex px-2">
                                                     <div class="avatar avatar-sm rounded-circle bg-gray-100 me-2 my-2">
-                                                        <img src="../assets/img/small-logos/logo-xd.svg"
+                                                        <img src="../img/small-logos/logo-xd.svg"
                                                             class="w-80" alt="xd">
                                                     </div>
                                                     <div class="my-auto">
@@ -713,7 +713,7 @@
                                                 <div class="d-flex">
                                                     <div
                                                         class="border px-1 py-1 text-center d-flex align-items-center border-radius-sm my-auto">
-                                                        <img src="../assets/img/logos/mastercard.png"
+                                                        <img src="../img/logos/mastercard.png"
                                                             class="w-90 mx-auto" alt="mastercard">
                                                     </div>
                                                     <div class="ms-2">
