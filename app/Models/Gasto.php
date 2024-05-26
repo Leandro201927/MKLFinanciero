@@ -25,4 +25,8 @@ class Gasto extends Model
     {
         return $this->belongsTo('App\Models\User', 'UsuarioID');
     }
+    public function productos()
+    {
+        return $this->hasMany(ProductoGasto::class, 'MovimientoID');
+    }
 }

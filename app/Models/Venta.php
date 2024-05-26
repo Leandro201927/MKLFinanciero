@@ -25,4 +25,8 @@ class Venta extends Model
     {
         return $this->belongsTo('App\Models\User', 'UsuarioID');
     }
+    public function productos()
+    {
+        return $this->hasMany(ProductoVenta::class, 'VentaID');
+    }
 }

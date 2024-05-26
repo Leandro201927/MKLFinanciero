@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\Venta;
-
-use Illuminate\Support\Facades\Auth;
+use App\Models\Producto;
+use App\Models\ProductoVenta;
 
 class VentaController extends Controller
 {
@@ -21,7 +22,7 @@ class VentaController extends Controller
      */
     public function index()
     {
-        $ventas = Venta::all(); // -> SELECT * FROM 'Producto';
+        $ventas = Venta::where('UsuarioID', Auth::id())->get(); // -> SELECT * FROM 'Producto';
         return view('ventas.read', compact('ventas'));
     }
 
@@ -41,7 +42,8 @@ class VentaController extends Controller
      */
     public function create()
     {
-        return view('ventas.create');
+        $productos = Producto::where('UsuarioID', Auth::id())->get();
+        return view('ventas.create', compact('productos'));
     }
 
     /**
@@ -57,8 +59,23 @@ class VentaController extends Controller
         // Actualiza los campos del producto con los datos del $request
         $venta->UsuarioID = Auth::id();
         $venta->Descripcion = $request->Descripcion;
-    
+        // Obtén los productos y cantidades
+        $productos = $request->input('productos');
+        $cantidades = $request->input('cantidades');
         $venta->save();
+
+        // Guarda los datos en la tabla de relación ProductoVenta
+        foreach ($productos as $key => $productoID) {
+            // Crea una nueva entrada en ProductoVenta
+            ProductoVenta::create([
+                'ImpuestoID' => 1,
+                'Valor_Total' => 0,
+                'VentaID' => $venta->ID, // Reemplaza con el ID de la venta actual
+                'ProductoID' => $productoID,
+                'Cantidad_Productos' => $cantidades[$key]
+            ]);
+        }
+        
     
         return redirect()->route('venta'); // -> route no apunta a una vista, sino al controlador
     }
@@ -82,9 +99,10 @@ class VentaController extends Controller
      */
     public function edit($id)
     {
-        // return view('Usuario.update', compact('usuario'));
-        $venta = Venta::find($id); // -> ::find($id) -> SELECT * FROM 'Producto' WHERE id = $id;
-        return view('ventas.update', compact('venta'));
+        $venta = Venta::find($id);
+        $productosCantidades = $venta->productos; // Asume que tienes una relación 'productos' en el modelo Venta
+        $productosDisponibles = Producto::all();
+        return view('ventas.update', compact('venta', 'productosCantidades', 'productosDisponibles'));
     }
 
     /**
@@ -98,13 +116,33 @@ class VentaController extends Controller
     {
         $venta = Venta::find($id);
     
-        // Actualiza los campos del producto con los datos del $request
+        // Actualiza los campos de la venta con los datos del $request
         $venta->Descripcion = $request->Descripcion;
     
+        // Guarda los cambios en la venta
         $venta->save();
     
-        return redirect()->route('venta'); // -> route no apunta a una vista, sino al controlador
+        // Actualiza los productos y cantidades relacionados
+        $productos = $request->input('productos');
+        $cantidades = $request->input('cantidades');
+    
+        // Elimina las entradas anteriores en ProductoVenta para esta venta
+        ProductoVenta::where('VentaID', $id)->delete();
+    
+        // Crea nuevas entradas en ProductoVenta con los datos actualizados
+        foreach ($productos as $key => $productoID) {
+            ProductoVenta::create([
+                'ImpuestoID' => 1,
+                'Valor_Total' => 0,
+                'VentaID' => $id,
+                'ProductoID' => $productoID,
+                'Cantidad_Productos' => $cantidades[$key],
+            ]);
+        }
+    
+        return redirect()->route('venta'); // Redirige a la lista de ventas
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -116,6 +154,9 @@ class VentaController extends Controller
     {
         $venta = Venta::find($id); // -> ::find($id) -> SELECT * FROM 'producto' WHERE id = $id;
         $venta->delete(); // -> DELETE FROM 'producto' WHERE ID = $id;
+
+        // Delete all ProductoVenta entries for the specified $id
+        ProductoVenta::where('VentaID', $id)->delete();
 
         return redirect()->route('venta');
     }

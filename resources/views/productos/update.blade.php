@@ -15,29 +15,6 @@
             <div class="row my-4">
                 <div class="col-lg-12 col-md-12">
                     <div class="card shadow-xs border">
-                        <div class="card-header border-bottom pb-0">
-                            <div class="d-sm-flex align-items-center mb-3">
-                                <div>
-                                    <!-- <h6 class="font-weight-semibold text-lg mb-0">Editando producto</h6>
-                                    <p class="text-sm mb-sm-0 mb-2">Estos son los detalles sobre los productos (recientes) añadidos.</p> -->
-                                </div>
-                            </div>
-                            <div class="pb-3 d-sm-flex align-items-center">
-                              <!--
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable1"
-                                        autocomplete="off" checked>
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable1">All</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable2"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable2">Monitored</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable3"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable3">Unmonitored</label>
-                                </div>
-                              -->
-                            </div>
-                        </div>
                         <div class="card-body px-3 py-4">
                             <div class="table-responsive p-0">
                                 <form role="form" class="text-start" action="{{ route('producto.update', $producto->ID) }}" method="POST">
