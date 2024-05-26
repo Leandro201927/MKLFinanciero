@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\GastoController;
 use App\Http\Controllers\VentaController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -44,6 +45,14 @@ Route::delete('/venta/{venta}', [VentaController::class, 'destroy'])->name('vent
 Route::get('/venta/create', [VentaController::class, 'create'])->name('venta.create')->middleware('auth');
 Route::post('/venta', [VentaController::class, 'store'])->name('venta.store')->middleware('auth');
 Route::get('/imprimirVenta', [VentaController::class, 'imprimirVenta'])->name('venta.imprimirVentas');
+
+Route::get('/gasto', [GastoController::class, 'index'])->name('gasto')->middleware('auth');
+Route::get('/gasto/{gasto}/edit', [GastoController::class, 'edit'])->name('gasto.edit')->middleware('auth');
+Route::put('/gasto/{gasto}', [GastoController::class, 'update'])->name('gasto.update')->middleware('auth');
+Route::delete('/gasto/{gasto}', [GastoController::class, 'destroy'])->name('gasto.destroy')->middleware('auth');
+Route::get('/gasto/create', [GastoController::class, 'create'])->name('gasto.create')->middleware('auth');
+Route::post('/gasto', [GastoController::class, 'store'])->name('gasto.store')->middleware('auth');
+Route::get('/imprimirGasto', [GastoController::class, 'imprimirGasto'])->name('gasto.imprimirGastos');
 
 // Route::resource('producto', ProductoController::class)->middleware('auth');
 

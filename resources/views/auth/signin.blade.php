@@ -46,11 +46,11 @@
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <div class="form-check form-check-info text-left mb-0">
-                                                <input class="form-check-input" type="checkbox" value=""
+                                                <!-- <input class="form-check-input" type="checkbox" value=""
                                                     id="flexCheckDefault">
                                                 <label class="font-weight-normal text-dark mb-0" for="flexCheckDefault">
                                                     Recordar durante 14 días
-                                                </label>
+                                                </label> -->
                                             </div>
                                             <a href="{{ route('password.request') }}"
                                                 class="text-xs font-weight-bold ms-auto">¿Olvidaste
@@ -58,13 +58,13 @@
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-dark w-100 mt-4 mb-3">Iniciar sesión</button>
-                                            <button type="button" class="btn btn-white btn-icon w-100 mb-3">
+                                            <!-- <button type="button" class="btn btn-white btn-icon w-100 mb-3">
                                                 <span class="btn-inner--icon me-1">
                                                     <img class="w-5" src="../img/logos/google-logo.svg"
                                                         alt="google-logo" />
                                                 </span>
                                                 <span class="btn-inner--text">Iniciar sesión con Google</span>
-                                            </button>
+                                            </button> -->
                                         </div>
                                     </form>
                                 </div>
