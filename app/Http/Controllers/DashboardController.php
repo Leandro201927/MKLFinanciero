@@ -39,11 +39,11 @@ class DashboardController extends Controller
 
         $ultimosRegistros = Venta::where('UsuarioID', $usuarioID)
         ->orderBy('Fecha_Venta', 'desc')
-        ->take(2)
+        ->take(3)
         ->get()
         ->concat(Gasto::where('UsuarioID', $usuarioID)
             ->orderBy('Fecha_Gasto', 'desc')
-            ->take(2)
+            ->take(3)
             ->get());
 
         /**
@@ -100,7 +100,7 @@ class DashboardController extends Controller
 
         // Obtener balance por dia (restar ventasPorDia - gastosPorDia)
         $balancePorDia = $ventasPorDiaFormatted->mapWithKeys(function ($value, $key) use ($gastosPorDiaFormatted) {
-            return [$key => $value - $gastosPorDiaFormatted[$key]];
+            return [$key => $value - ($gastosPorDiaFormatted[$key] ?? 0)];
         });
 
         // Obtener todas las fechas en el rango completo
@@ -127,12 +127,12 @@ class DashboardController extends Controller
             return [$key => $value - $gastosPorDiaCompleto[$key]];
         })->take(10); // Obtener los ultimos 10 registros
 
-        dd($ultimosRegistros);
+        // dd($ultimosRegistros);
 
         // dd($fechasCompletas, $ventasPorDiaCompleto, $gastosPorDiaCompleto, $balancePorDiaCompleto);
 
         // dd($ventasPorDiaFormatted, $gastosPorDiaFormatted, $balancePorDia, $ingresos, $gastos, $balance, $cantTransacciones);
 
-        return view('dashboard', compact('ingresos', 'gastos', 'ultimosRegistros', 'gastosPorDiaFormatted', 'ventasPorDiaFormatted', 'balance', 'cantTransacciones', 'ventasPorDia', 'gastosPorDia', 'balancePorDia', 'ventasPorDiaCompleto', 'gastosPorDiaCompleto', 'balancePorDiaCompleto'));
+        return view('dashboard', compact('balance', 'ingresos', 'gastos', 'ultimosRegistros', 'gastosPorDiaFormatted', 'ventasPorDiaFormatted', 'cantTransacciones', 'ventasPorDia', 'gastosPorDia', 'balancePorDia', 'ventasPorDiaCompleto', 'gastosPorDiaCompleto', 'balancePorDiaCompleto'));
     }
 }
