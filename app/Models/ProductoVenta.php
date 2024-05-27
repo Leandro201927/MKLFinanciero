@@ -9,7 +9,7 @@ class ProductoVenta extends Model
 {
     protected $table = 'producto_venta';
     protected $primaryKey = 'ID';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = ['VentaID', 'ProductoID', 'ImpuestoID', 'Cantidad_Productos', 'Valor_Total'];
 

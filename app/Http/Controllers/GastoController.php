@@ -41,6 +41,7 @@ class GastoController extends Controller
         $gasto = new Gasto;
 
         $gasto->UsuarioID = Auth::id();
+        $gasto->Fecha_Gasto = now();
         $gasto->Descripcion = $request->Descripcion;
 
         $productos = $request->input('productos');

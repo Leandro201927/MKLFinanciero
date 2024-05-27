@@ -49,7 +49,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100">
-                                        <p class="text-sm text-secondary mb-1">Revenue</p>
+                                        <p class="text-sm text-secondary mb-1">Ganancias</p>
                                         <h4 class="mb-2 font-weight-bold">$99,118.5</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
@@ -80,7 +80,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100">
-                                        <p class="text-sm text-secondary mb-1">Transactions</p>
+                                        <p class="text-sm text-secondary mb-1">Ingresos</p>
                                         <h4 class="mb-2 font-weight-bold">376</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
@@ -109,7 +109,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100">
-                                        <p class="text-sm text-secondary mb-1">Avg. Transaction</p>
+                                        <p class="text-sm text-secondary mb-1">Movimientos</p>
                                         <h4 class="mb-2 font-weight-bold">$450.53</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
@@ -138,7 +138,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100">
-                                        <p class="text-sm text-secondary mb-1">Coupon Sales</p>
+                                        <p class="text-sm text-secondary mb-1">Cant. Transacciones</p>
                                         <h4 class="mb-2 font-weight-bold">$23,364.55</h4>
                                         <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
@@ -395,8 +395,8 @@
                         <div class="card-header pb-0">
                             <div class="d-sm-flex align-items-center mb-3">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">Overview balance</h6>
-                                    <p class="text-sm mb-sm-0 mb-2">Aquí tienes detalles sobre el saldo.</p>
+                                    <h6 class="font-weight-semibold text-lg mb-0">Relacion en transacciones por dia</h6>
+                                    <p class="text-sm mb-sm-0 mb-2">Aquí tienes detalles sobre el dinero en movimientos por dia.</p>
                                 </div>
                             </div>
                             <div class="d-sm-flex align-items-center">
@@ -423,5 +423,257 @@
             </div>
         </div>
     </main>
+    <script>
+        // if (document.getElementsByClassName('mySwiper')) {
+        //     var swiper = new Swiper(".mySwiper", {
+        //         effect: "cards",
+        //         grabCursor: true,
+        //         initialSlide: 1,
+        //         navigation: {
+        //             nextEl: '.swiper-button-next',
+        //             prevEl: '.swiper-button-prev',
+        //         },
+        //     });
+        // };
 
+
+        // var ctx = document.getElementById("chart-bars").getContext("2d");
+
+        // new Chart(ctx, {
+        //     type: "bar",
+        //     data: {
+        //         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        //         datasets: [{
+        //                 label: "Sales",
+        //                 tension: 0.4,
+        //                 borderWidth: 0,
+        //                 borderSkipped: false,
+        //                 backgroundColor: "#2ca8ff",
+        //                 data: [450, 200, 100, 220, 500, 100, 400, 230, 500, 200],
+        //                 maxBarThickness: 6
+        //             },
+        //             {
+        //                 label: "Sales",
+        //                 tension: 0.4,
+        //                 borderWidth: 0,
+        //                 borderSkipped: false,
+        //                 backgroundColor: "#7c3aed",
+        //                 data: [200, 300, 200, 420, 400, 200, 300, 430, 400, 300],
+        //                 maxBarThickness: 6
+        //             },
+        //         ],
+        //     },
+        //     options: {
+        //         responsive: true,
+        //         maintainAspectRatio: false,
+        //         plugins: {
+        //             legend: {
+        //                 display: false,
+        //             },
+        //             tooltip: {
+        //                 backgroundColor: '#fff',
+        //                 titleColor: '#1e293b',
+        //                 bodyColor: '#1e293b',
+        //                 borderColor: '#e9ecef',
+        //                 borderWidth: 1,
+        //                 usePointStyle: true
+        //             }
+        //         },
+        //         interaction: {
+        //             intersect: false,
+        //             mode: 'index',
+        //         },
+        //         scales: {
+        //             y: {
+        //                 stacked: true,
+        //                 grid: {
+        //                     drawBorder: false,
+        //                     display: true,
+        //                     drawOnChartArea: true,
+        //                     drawTicks: false,
+        //                     borderDash: [4, 4],
+        //                 },
+        //                 ticks: {
+        //                     beginAtZero: true,
+        //                     padding: 10,
+        //                     font: {
+        //                         size: 12,
+        //                         family: "Noto Sans",
+        //                         style: 'normal',
+        //                         lineHeight: 2
+        //                     },
+        //                     color: "#64748B"
+        //                 },
+        //             },
+        //             x: {
+        //                 stacked: true,
+        //                 grid: {
+        //                     drawBorder: false,
+        //                     display: false,
+        //                     drawOnChartArea: false,
+        //                     drawTicks: false
+        //                 },
+        //                 ticks: {
+        //                     font: {
+        //                         size: 12,
+        //                         family: "Noto Sans",
+        //                         style: 'normal',
+        //                         lineHeight: 2
+        //                     },
+        //                     color: "#64748B"
+        //                 },
+        //             },
+        //         },
+        //     },
+        // });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            var ventasPorDiaFormatted = @json($ventasPorDiaFormatted);
+            var gastosPorDiaFormatted = @json($gastosPorDiaFormatted);
+
+            console.log(ventasPorDiaFormatted, gastosPorDiaFormatted);
+
+            var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+            var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+            gradientStroke1.addColorStop(1, 'rgba(45,168,255,0.2)');
+            gradientStroke1.addColorStop(0.2, 'rgba(45,168,255,0.0)');
+            gradientStroke1.addColorStop(0, 'rgba(45,168,255,0)'); //blue colors
+
+            var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+            gradientStroke2.addColorStop(1, 'rgba(119,77,211,0.4)');
+            gradientStroke2.addColorStop(0.7, 'rgba(119,77,211,0.1)');
+            gradientStroke2.addColorStop(0, 'rgba(119,77,211,0)'); //purple colors
+
+            new Chart(ctx2, {
+                plugins: [{
+                    beforeInit(chart) {
+                        const originalFit = chart.legend.fit;
+                        chart.legend.fit = function fit() {
+                            originalFit.bind(chart.legend)();
+                            this.height += 40;
+                        }
+                    },
+                }],
+                type: "line",
+                data: {
+                    labels: Object.keys(ventasPorDiaFormatted),
+                    datasets: [{
+                            label: "Ventas",
+                            tension: 0,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            borderColor: "#2ca8ff",
+                            pointBorderColor: '#2ca8ff',
+                            pointBackgroundColor: '#2ca8ff',
+                            backgroundColor: gradientStroke1,
+                            fill: true,
+                            data: Object.values(ventasPorDiaFormatted),
+                            maxBarThickness: 6
+
+                        },
+                        {
+                            label: "Gastos",
+                            tension: 0,
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            borderColor: "#832bf9",
+                            pointBorderColor: '#832bf9',
+                            pointBackgroundColor: '#832bf9',
+                            backgroundColor: gradientStroke2,
+                            fill: true,
+                            data: Object.values(gastosPorDiaFormatted),
+                            maxBarThickness: 6
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            align: 'end',
+                            labels: {
+                                boxWidth: 6,
+                                boxHeight: 6,
+                                padding: 20,
+                                pointStyle: 'circle',
+                                borderRadius: 50,
+                                usePointStyle: true,
+                                font: {
+                                    weight: 400,
+                                },
+                            },
+                        },
+                        tooltip: {
+                            backgroundColor: '#fff',
+                            titleColor: '#1e293b',
+                            bodyColor: '#1e293b',
+                            borderColor: '#e9ecef',
+                            borderWidth: 1,
+                            pointRadius: 2,
+                            usePointStyle: true,
+                            boxWidth: 8,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [4, 4]
+                            },
+                            ticks: {
+                                callback: function(value, index, ticks) {
+                                    console.log('value', value, 'index', index, 'ticks', ticks)
+                                    return parseInt(value).toLocaleString() + ' EUR';
+                                },
+                                display: true,
+                                padding: 10,
+                                color: '#b2b9bf',
+                                font: {
+                                    size: 12,
+                                    family: "Noto Sans",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                                color: "#64748B"
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [4, 4]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#b2b9bf',
+                                padding: 20,
+                                font: {
+                                    size: 12,
+                                    family: "Noto Sans",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                                color: "#64748B"
+                            }
+                        },
+                    },
+                },
+            });
+        })
+    </script>
 </x-app-layout>

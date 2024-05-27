@@ -9,7 +9,7 @@ class ProductoGasto extends Model
 {
     protected $table = 'producto_gasto';
     protected $primaryKey = 'ID';
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = ['MovimientoID', 'ProductoID', 'ImpuestoID', 'Cantidad_Productos', 'Valor_Total'];
 

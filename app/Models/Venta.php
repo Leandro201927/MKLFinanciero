@@ -13,7 +13,7 @@ class Venta extends Model
 
     protected $primaryKey = 'ID';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'UsuarioID',

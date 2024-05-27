@@ -59,6 +59,7 @@ class VentaController extends Controller
         // Actualiza los campos del producto con los datos del $request
         $venta->UsuarioID = Auth::id();
         $venta->Descripcion = $request->Descripcion;
+        $venta->Fecha_Venta = now();
         // Obtén los productos y cantidades
         $productos = $request->input('productos');
         $cantidades = $request->input('cantidades');
