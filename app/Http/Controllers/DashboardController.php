@@ -58,8 +58,11 @@ class DashboardController extends Controller
         //     })->sum();
         // });
         
+        
+
         // Version 2:
         $ventasPorDia = Venta::whereIn('ID', $ventaIDs)
+            ->orderBy('Fecha_Venta', 'asc')
             ->get()
             ->groupBy(function ($venta) {
                 return \Carbon\Carbon::parse($venta->Fecha_Venta)->format('M/d');
@@ -80,6 +83,7 @@ class DashboardController extends Controller
 
         // Hacer la misma version 2 pero para gastos
         $gastosPorDia = Gasto::whereIn('ID', $gastoIDs)
+            ->orderBy('Fecha_Gasto', 'asc')
             ->get()
             ->groupBy(function ($gasto) {
                 return \Carbon\Carbon::parse($gasto->Fecha_Gasto)->format('M/d');
@@ -125,7 +129,7 @@ class DashboardController extends Controller
         // });
         $balancePorDiaCompleto = $ventasPorDiaCompleto->mapWithKeys(function ($value, $key) use ($gastosPorDiaCompleto) {
             return [$key => $value - $gastosPorDiaCompleto[$key]];
-        })->take(10); // Obtener los ultimos 10 registros
+        })->take(-10); // Obtener los ultimos 10 registros
 
         // dd($ultimosRegistros);
 

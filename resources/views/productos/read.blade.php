@@ -100,7 +100,7 @@
                                     <label class="btn btn-white px-3 mb-0" for="btnradiotable3">Unmonitored</label>
                                 </div>
                               -->
-                                <div class="input-group w-sm-25 ms-auto">
+                                <!-- <div class="input-group w-sm-25 ms-auto">
                                     <span class="input-group-text text-body">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
                                             fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -111,7 +111,7 @@
                                         </svg>
                                     </span>
                                     <input type="text" class="form-control" placeholder="Buscar">
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">

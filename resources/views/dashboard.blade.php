@@ -70,7 +70,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100">
-                                        <p class="text-sm text-secondary mb-1">Ingresos</p>
+                                        <p class="text-sm text-secondary mb-1">Ventas</p>
                                         <h4 class="mb-0 font-weight-bold">${{ number_format($ingresos, 2, ',', '.') }}</h4>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="w-100">
-                                        <p class="text-sm text-secondary mb-1">Movimientos</p>
+                                        <p class="text-sm text-secondary mb-1">Gastos</p>
                                         <h4 class="mb-0 font-weight-bold">${{ number_format($gastos, 2, ',', '.') }}</h4>
                                         <!-- <div class="d-flex align-items-center">
                                             <span class="text-sm text-success font-weight-bolder">
@@ -136,7 +136,7 @@
                             <div class="d-sm-flex align-items-center mb-3">
                                 <div>
                                     <h6 class="font-weight-semibold text-lg mb-0">Transacciones diarias</h6>
-                                    <p class="text-sm mb-sm-0 mb-2">Aquí tienes detalles sobre entre gastos y ventas por día.</p>
+                                    <p class="text-sm mb-sm-0 mb-2">Aquí tienes detalles sobre entre gastos y ventas por día</p>
                                 </div>
                             </div>
                         </div>
@@ -152,8 +152,8 @@
                 <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
                     <div class="card shadow-xs border h-100">
                         <div class="card-header pb-0">
-                            <h6 class="font-weight-semibold text-lg mb-0">Saldos a lo largo del tiempo</h6>
-                            <p class="text-sm">Aquí tienes detalles sobre el saldo.</p>
+                            <h6 class="font-weight-semibold text-lg mb-0">Utilidad diaria</h6>
+                            <p class="text-sm">Aquí tienes detalles sobre el balance diario</p>
                         </div>
                         <div class="card-body py-3">
                             <div class="chart mb-2">
