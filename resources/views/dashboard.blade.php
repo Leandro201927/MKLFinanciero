@@ -7,7 +7,7 @@
                     <div class="d-md-flex align-items-center mb-3 mx-2">
                         <div class="mb-md-0 mb-3">
                             <h3 class="font-weight-bold mb-0">Panel de control</h3>
-                            <p class="mb-0">Sitio en construcción, ¡vuelve pronto!</p>
+                            <p class="mb-0">Vista general sobre los registros financieros de la tienda</p>
                         </div>
                         <!-- <button type="button"
                             class="btn btn-sm btn-white btn-icon d-flex align-items-center mb-0 ms-md-auto mb-sm-0 mb-2 me-2">
@@ -175,20 +175,6 @@
                                     <h6 class="font-weight-semibold text-lg mb-0">Últimas transacciones</h6>
                                     <p class="text-sm mb-sm-0 mb-2">Aquí tienes detalles sobre las últimas transacciones</p>
                                 </div>
-                                <div class="ms-auto d-flex">
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0">
-                                        <span class="btn-inner--icon">
-                                            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                stroke="currentColor" class="d-block me-2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
-                                            </svg>
-                                        </span>
-                                        <span class="btn-inner--text">Descargar</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">
@@ -197,10 +183,10 @@
                                     <thead class="bg-gray-100">
                                         <tr>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                Transaction</th>
+                                                ID</th>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">
-                                                Amount</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Date
+                                                Descripcion</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Fecha
                                             </th>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">
                                                 Account</th>
@@ -395,8 +381,8 @@
                         <div class="card-header pb-0">
                             <div class="d-sm-flex align-items-center mb-3">
                                 <div>
-                                    <h6 class="font-weight-semibold text-lg mb-0">Relacion en transacciones por dia</h6>
-                                    <p class="text-sm mb-sm-0 mb-2">Aquí tienes detalles sobre el dinero en movimientos por dia.</p>
+                                    <h6 class="font-weight-semibold text-lg mb-0">Vista general</h6>
+                                    <p class="text-sm mb-sm-0 mb-2">Aquí tienes detalles sobre entre gastos y ventas por día.</p>
                                 </div>
                             </div>
                             <div class="d-sm-flex align-items-center">
@@ -424,114 +410,98 @@
         </div>
     </main>
     <script>
-        // if (document.getElementsByClassName('mySwiper')) {
-        //     var swiper = new Swiper(".mySwiper", {
-        //         effect: "cards",
-        //         grabCursor: true,
-        //         initialSlide: 1,
-        //         navigation: {
-        //             nextEl: '.swiper-button-next',
-        //             prevEl: '.swiper-button-prev',
-        //         },
-        //     });
-        // };
-
-
-        // var ctx = document.getElementById("chart-bars").getContext("2d");
-
-        // new Chart(ctx, {
-        //     type: "bar",
-        //     data: {
-        //         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-        //         datasets: [{
-        //                 label: "Sales",
-        //                 tension: 0.4,
-        //                 borderWidth: 0,
-        //                 borderSkipped: false,
-        //                 backgroundColor: "#2ca8ff",
-        //                 data: [450, 200, 100, 220, 500, 100, 400, 230, 500, 200],
-        //                 maxBarThickness: 6
-        //             },
-        //             {
-        //                 label: "Sales",
-        //                 tension: 0.4,
-        //                 borderWidth: 0,
-        //                 borderSkipped: false,
-        //                 backgroundColor: "#7c3aed",
-        //                 data: [200, 300, 200, 420, 400, 200, 300, 430, 400, 300],
-        //                 maxBarThickness: 6
-        //             },
-        //         ],
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         maintainAspectRatio: false,
-        //         plugins: {
-        //             legend: {
-        //                 display: false,
-        //             },
-        //             tooltip: {
-        //                 backgroundColor: '#fff',
-        //                 titleColor: '#1e293b',
-        //                 bodyColor: '#1e293b',
-        //                 borderColor: '#e9ecef',
-        //                 borderWidth: 1,
-        //                 usePointStyle: true
-        //             }
-        //         },
-        //         interaction: {
-        //             intersect: false,
-        //             mode: 'index',
-        //         },
-        //         scales: {
-        //             y: {
-        //                 stacked: true,
-        //                 grid: {
-        //                     drawBorder: false,
-        //                     display: true,
-        //                     drawOnChartArea: true,
-        //                     drawTicks: false,
-        //                     borderDash: [4, 4],
-        //                 },
-        //                 ticks: {
-        //                     beginAtZero: true,
-        //                     padding: 10,
-        //                     font: {
-        //                         size: 12,
-        //                         family: "Noto Sans",
-        //                         style: 'normal',
-        //                         lineHeight: 2
-        //                     },
-        //                     color: "#64748B"
-        //                 },
-        //             },
-        //             x: {
-        //                 stacked: true,
-        //                 grid: {
-        //                     drawBorder: false,
-        //                     display: false,
-        //                     drawOnChartArea: false,
-        //                     drawTicks: false
-        //                 },
-        //                 ticks: {
-        //                     font: {
-        //                         size: 12,
-        //                         family: "Noto Sans",
-        //                         style: 'normal',
-        //                         lineHeight: 2
-        //                     },
-        //                     color: "#64748B"
-        //                 },
-        //             },
-        //         },
-        //     },
-        // });
-
         window.addEventListener('DOMContentLoaded', () => {
-            var ventasPorDiaFormatted = @json($ventasPorDiaFormatted);
-            var gastosPorDiaFormatted = @json($gastosPorDiaFormatted);
+            /**
+             * ----------------- Tabla de Saldos a lo largo del tiempo -----------------
+             */
+            var balancePorDiaCompleto = @json($balancePorDiaCompleto);
+            console.log(balancePorDiaCompleto);
+            var ctx = document.getElementById("chart-bars").getContext("2d");
 
-            console.log(ventasPorDiaFormatted, gastosPorDiaFormatted);
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: Object.keys(balancePorDiaCompleto),
+                    datasets: [{
+                            label: "Sales",
+                            tension: 0.4,
+                            borderWidth: 0,
+                            borderSkipped: false,
+                            backgroundColor: "#2ca8ff",
+                            data: Object.values(balancePorDiaCompleto),
+                            maxBarThickness: 6
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            backgroundColor: '#fff',
+                            titleColor: '#1e293b',
+                            bodyColor: '#1e293b',
+                            borderColor: '#e9ecef',
+                            borderWidth: 1,
+                            usePointStyle: true
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            stacked: true,
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [4, 4],
+                            },
+                            ticks: {
+                                beginAtZero: true,
+                                padding: 10,
+                                font: {
+                                    size: 12,
+                                    family: "Noto Sans",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                                color: "#64748B"
+                            },
+                        },
+                        x: {
+                            stacked: true,
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 12,
+                                    family: "Noto Sans",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                                color: "#64748B"
+                            },
+                        },
+                    },
+                },
+            });
+
+            /**
+             * ----------------- Tabla de Vista General -----------------
+             */
+            var ventasPorDiaFormatted = @json($ventasPorDiaCompleto);
+            var gastosPorDiaFormatted = @json($gastosPorDiaCompleto);
 
             var ctx2 = document.getElementById("chart-line").getContext("2d");
 
@@ -635,7 +605,6 @@
                             },
                             ticks: {
                                 callback: function(value, index, ticks) {
-                                    console.log('value', value, 'index', index, 'ticks', ticks)
                                     return parseInt(value).toLocaleString() + ' EUR';
                                 },
                                 display: true,

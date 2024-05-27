@@ -37,6 +37,19 @@ class DashboardController extends Controller
         // Calcular la cantidad de transacciones
         $cantTransacciones = ProductoVenta::whereIn('ID', $productoVentaIDs)->count() + ProductoGasto::whereIn('ID', $productoGastoIDs)->count();
 
+        $ultimosRegistros = Venta::where('UsuarioID', $usuarioID)
+        ->orderBy('Fecha_Venta', 'desc')
+        ->take(2)
+        ->get()
+        ->concat(Gasto::where('UsuarioID', $usuarioID)
+            ->orderBy('Fecha_Gasto', 'desc')
+            ->take(2)
+            ->get());
+
+        /**
+         * Datos para tabla de 'Vista general de transacciones por día'
+         */
+
         // Hallar suma de ventas por día (tomar en cuenta que la fecha esta dentro de los registros de la tabla 'Venta' (obtener por ventaIDs) donde esta fecha debera agrupar todos sus ProductoVenta por los ventaIDs que se encuentren en ese rango del dia, y asi con todos. El formato debera ser ['Ago/11' => 15220.00 (Total del dia)], y al mismo tiempo ya sabemos los productoventa gracias a la variable $productoVentaIDs)
         // Version 1:
         // $ventasPorDia = Venta::whereIn('ID', $ventaIDs)->get()->groupBy('Fecha_Venta')->map(function($ventas) use ($productoVentaIDs) {
@@ -90,8 +103,36 @@ class DashboardController extends Controller
             return [$key => $value - $gastosPorDiaFormatted[$key]];
         });
 
+        // Obtener todas las fechas en el rango completo
+        $fechasCompletas = collect($ventasPorDiaFormatted)
+        ->merge($gastosPorDiaFormatted)
+        ->keys()
+        ->unique();
+
+        // Sincronizar las ventas vs gastos por dia en caso que haya un dia que no haya registrado uno o el otro.
+        // Para ello, se debe crear un arreglo asociativo con todas las fechas y valores 0
+        $ventasPorDiaCompleto = $fechasCompletas->mapWithKeys(function ($fecha) use ($ventasPorDiaFormatted) {
+            return [$fecha => $ventasPorDiaFormatted[$fecha] ?? 0];
+        });
+
+        $gastosPorDiaCompleto = $fechasCompletas->mapWithKeys(function ($fecha) use ($gastosPorDiaFormatted) {
+            return [$fecha => $gastosPorDiaFormatted[$fecha] ?? 0];
+        });
+
+        // Obtener balance por día (restar ventasPorDia - gastosPorDia)
+        // $balancePorDiaCompleto = $ventasPorDiaCompleto->mapWithKeys(function ($value, $key) use ($gastosPorDiaCompleto) {
+        //     return [$key => $value - $gastosPorDiaCompleto[$key]];
+        // });
+        $balancePorDiaCompleto = $ventasPorDiaCompleto->mapWithKeys(function ($value, $key) use ($gastosPorDiaCompleto) {
+            return [$key => $value - $gastosPorDiaCompleto[$key]];
+        })->take(10); // Obtener los ultimos 10 registros
+
+        dd($ultimosRegistros);
+
+        // dd($fechasCompletas, $ventasPorDiaCompleto, $gastosPorDiaCompleto, $balancePorDiaCompleto);
+
         // dd($ventasPorDiaFormatted, $gastosPorDiaFormatted, $balancePorDia, $ingresos, $gastos, $balance, $cantTransacciones);
 
-        return view('dashboard', compact('ingresos', 'gastos', 'gastosPorDiaFormatted', 'ventasPorDiaFormatted', 'balance', 'cantTransacciones', 'ventasPorDia', 'gastosPorDia', 'balancePorDia'));
+        return view('dashboard', compact('ingresos', 'gastos', 'ultimosRegistros', 'gastosPorDiaFormatted', 'ventasPorDiaFormatted', 'balance', 'cantTransacciones', 'ventasPorDia', 'gastosPorDia', 'balancePorDia', 'ventasPorDiaCompleto', 'gastosPorDiaCompleto', 'balancePorDiaCompleto'));
     }
 }
