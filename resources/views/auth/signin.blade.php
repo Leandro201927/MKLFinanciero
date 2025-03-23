@@ -52,9 +52,9 @@
                                                     Recordar durante 14 días
                                                 </label> -->
                                             </div>
-                                            <a href="{{ route('password.request') }}"
+                                            <!-- <a href="{{ route('password.request') }}"
                                                 class="text-xs font-weight-bold ms-auto">¿Olvidaste
-                                                tu contraseña?</a>
+                                                tu contraseña?</a> -->
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-dark w-100 mt-4 mb-3">Iniciar sesión</button>

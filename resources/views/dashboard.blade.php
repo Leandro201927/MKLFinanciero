@@ -50,7 +50,7 @@
                                 <div class="col-12">
                                     <div class="w-100">
                                         <p class="text-sm text-secondary mb-1">Balance total</p>
-                                        <h4 class="mb-0 font-weight-bold">${{ $balance < 0 ? 0 : number_format($balance, 2, ',', '.') }}</h4>
+                                        <h4 class="mb-0 font-weight-bold">${{ number_format($balance, 2, ',', '.') }}</h4>
                                     </div>
                                 </div>
                             </div>

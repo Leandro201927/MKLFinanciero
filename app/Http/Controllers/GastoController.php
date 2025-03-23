@@ -20,7 +20,7 @@ class GastoController extends Controller
      */
     public function index()
     {
-        $gastos = Gasto::where('UsuarioID', Auth::id())->get(); // -> SELECT * FROM 'Producto';
+        $gastos = Gasto::where('UsuarioID', Auth::id())->orderBy('Fecha_Gasto', 'desc')->get();
         return view('gastos.read', compact('gastos'));
     }
 

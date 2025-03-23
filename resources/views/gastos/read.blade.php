@@ -70,7 +70,7 @@
                                     <button type="button" onclick="window.location.href='{{ route('gasto.create') }}'" class="btn btn-sm btn-white mb-0 me-2">
                                         Crear gasto
                                     </button>
-                                    <button type="button"
+                                    <!-- <button type="button"
                                         onclick="window.location.href='{{url('imprimirVenta')}}'"
                                         class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0">
                                         <span class="btn-inner--icon">
@@ -82,7 +82,7 @@
                                             </svg>
                                         </span>
                                         <span class="btn-inner--text">Descargar</span>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                             <div class="pb-3 d-sm-flex align-items-center">

@@ -73,7 +73,7 @@
                                     <button type="button" onclick="window.location.href='{{ route('producto.create') }}'" class="btn btn-sm btn-white mb-0 me-2">
                                         Crear producto
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0" onclick="window.location.href='{{url('imprimirProductos')}}'">
+                                    <!-- <button type="button" class="btn btn-sm btn-dark btn-icon d-flex align-items-center mb-0" onclick="window.location.href='{{url('imprimirProductos')}}'">
                                         <span class="btn-inner--icon">
                                             <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg"
                                                 fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -83,7 +83,7 @@
                                             </svg>
                                         </span>
                                         <span class="btn-inner--text">Descargar</span>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                             <div class="pb-3 d-sm-flex align-items-center">

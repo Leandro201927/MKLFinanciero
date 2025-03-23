@@ -22,7 +22,7 @@ class VentaController extends Controller
      */
     public function index()
     {
-        $ventas = Venta::where('UsuarioID', Auth::id())->get(); // -> SELECT * FROM 'Producto';
+        $ventas = Venta::where('UsuarioID', Auth::id())->orderBy('Fecha_Venta', 'desc')->get(); // -> SELECT * FROM 'Producto';
         return view('ventas.read', compact('ventas'));
     }
 
