@@ -1,0 +1,58 @@
+@startuml
+package "MKLFinanciero" {
+    package "Views" {
+        [AuthViews]
+        [DashboardViews]
+        [GastoViews]
+        [ProductoViews]
+        [VentaViews]
+    }
+    
+    package "Controllers" {
+        [AuthController]
+        [DashboardController]
+        [GastoController]
+        [ProductoController]
+        [UserController]
+        [VentaController]
+    }
+    
+    package "Models" {
+        [Gasto]
+        [Producto]
+        [User]
+        [Venta]
+    }
+    
+    [Database] as DB
+}
+
+' Relaciones Vista -> Controlador
+[AuthViews] --> [AuthController] : Solicita
+[DashboardViews] --> [DashboardController] : Solicita
+[GastoViews] --> [GastoController] : Solicita
+[ProductoViews] --> [ProductoController] : Solicita
+[VentaViews] --> [VentaController] : Solicita
+
+' Relaciones Controlador - Vista
+[AuthController] --> [AuthViews] : Entrega
+[DashboardController] --> [DashboardViews] : Entrega
+[GastoController] --> [GastoViews] : Entrega
+[ProductoController] --> [ProductoViews] : Entrega
+[VentaController] --> [VentaViews] : Entrega
+
+' Relaciones Modelo - BD 
+[Gasto] --> DB : Consulta/Almacena
+[Producto] --> DB : Consulta/Almacena
+[User] --> DB : Consulta/Almacena
+[Venta] --> DB : Consulta/Almacena
+
+' Relaciones específicas
+[AuthController] --> [User] : Gestiona
+[DashboardController] --> [Venta] : Consulta
+[DashboardController] --> [Gasto] : Consulta
+[GastoController] --> [Gasto] : Gestiona
+[ProductoController] --> [Producto] : Gestiona
+[UserController] --> [User] : Administra
+[VentaController] --> [Venta] : Gestiona
+@enduml
