@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\GastoController;
@@ -35,7 +34,7 @@ Route::put('/producto/{producto}', [ProductoController::class, 'update'])->name(
 Route::delete('/producto/{producto}', [ProductoController::class, 'destroy'])->name('producto.destroy')->middleware('auth');
 Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create')->middleware('auth');
 Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store')->middleware('auth');
-Route::get('/imprimirProductos', [ProductoController::class, 'imprimirProducto'])->name('producto.imprimirProductos');
+// Route::get('/imprimirProductos', [ProductoController::class, 'imprimirProducto'])->name('producto.imprimirProductos');
 
 Route::get('/venta', [VentaController::class, 'index'])->name('venta')->middleware('auth');
 Route::get('/venta/{venta}/edit', [VentaController::class, 'edit'])->name('venta.edit')->middleware('auth');
@@ -43,7 +42,7 @@ Route::put('/venta/{venta}', [VentaController::class, 'update'])->name('venta.up
 Route::delete('/venta/{venta}', [VentaController::class, 'destroy'])->name('venta.destroy')->middleware('auth');
 Route::get('/venta/create', [VentaController::class, 'create'])->name('venta.create')->middleware('auth');
 Route::post('/venta', [VentaController::class, 'store'])->name('venta.store')->middleware('auth');
-Route::get('/imprimirVenta', [VentaController::class, 'imprimirVenta'])->name('venta.imprimirVentas');
+// Route::get('/imprimirVenta', [VentaController::class, 'imprimirVenta'])->name('venta.imprimirVentas');
 
 Route::get('/gasto', [GastoController::class, 'index'])->name('gasto')->middleware('auth');
 Route::get('/gasto/{gasto}/edit', [GastoController::class, 'edit'])->name('gasto.edit')->middleware('auth');
@@ -51,25 +50,7 @@ Route::put('/gasto/{gasto}', [GastoController::class, 'update'])->name('gasto.up
 Route::delete('/gasto/{gasto}', [GastoController::class, 'destroy'])->name('gasto.destroy')->middleware('auth');
 Route::get('/gasto/create', [GastoController::class, 'create'])->name('gasto.create')->middleware('auth');
 Route::post('/gasto', [GastoController::class, 'store'])->name('gasto.store')->middleware('auth');
-Route::get('/imprimirGasto', [GastoController::class, 'imprimirGasto'])->name('gasto.imprimirGastos');
-
-// Route::resource('producto', ProductoController::class)->middleware('auth');
-
-Route::get('/tables', function () {
-    return view('tables');
-})->name('tables')->middleware('auth');
-
-Route::get('/wallet', function () {
-    return view('wallet');
-})->name('wallet')->middleware('auth');
-
-Route::get('/RTL', function () {
-    return view('RTL');
-})->name('RTL')->middleware('auth');
-
-Route::get('/profile', function () {
-    return view('account-pages.profile');
-})->name('profile')->middleware('auth');
+// Route::get('/imprimirGasto', [GastoController::class, 'imprimirGasto'])->name('gasto.imprimirGastos');
 
 Route::get('/signin', function () {
     return view('account-pages.signin');
@@ -96,22 +77,3 @@ Route::post('/sign-in', [LoginController::class, 'store'])
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
-
-Route::get('/forgot-password', [ForgotPasswordController::class, 'create'])
-    ->middleware('guest')
-    ->name('password.request');
-
-Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])
-    ->middleware('guest')
-    ->name('password.email');
-
-Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])
-    ->middleware('guest')
-    ->name('password.reset');
-
-Route::post('/reset-password', [ResetPasswordController::class, 'store'])
-    ->middleware('guest');
-
-Route::get('/laravel-examples/user-profile', [ProfileController::class, 'index'])->name('users.profile')->middleware('auth');
-Route::put('/laravel-examples/user-profile/update', [ProfileController::class, 'update'])->name('users.update')->middleware('auth');
-Route::get('/laravel-examples/users-management', [UserController::class, 'index'])->name('users-management')->middleware('auth');
