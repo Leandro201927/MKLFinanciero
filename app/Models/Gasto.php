@@ -9,7 +9,7 @@ class Gasto extends Model
 {
     use HasFactory;
 
-    protected $table = 'Movimiento';
+    protected $table = 'movimiento';
 
     protected $primaryKey = 'ID';
 
