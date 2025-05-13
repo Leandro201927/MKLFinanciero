@@ -146,11 +146,11 @@
                                               </td>
                                               <td class="align-middle">
                                                   <a href="{{ route('venta.edit', $venta->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
-                                                  <form action="{{ route('venta.destroy', $venta->ID) }}" method="POST">
+                                                  <!-- <form action="{{ route('venta.destroy', $venta->ID) }}" method="POST">
                                                       @csrf
                                                       @method('DELETE')
                                                       <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>
-                                                  </form>
+                                                  </form> -->
                                               </td>
                                           </tr>
                                       @endforeach
