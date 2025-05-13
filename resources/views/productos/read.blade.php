@@ -60,6 +60,30 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Mensajes de éxito o error -->
+            @if (session('success'))
+                <div class="row my-2">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="row my-2">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            
             <div class="row my-4">
                 <div class="col-lg-12 col-md-12">
                     <div class="card shadow-xs border">
@@ -148,7 +172,7 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
-                                                    <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST">
+                                                    <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>

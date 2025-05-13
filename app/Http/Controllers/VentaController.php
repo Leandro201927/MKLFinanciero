@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Venta;
 use App\Models\Producto;
 use App\Models\ProductoVenta;
+use Illuminate\Support\Facades\Validator;
 
 class VentaController extends Controller
 {
@@ -54,6 +55,26 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los datos
+        $validator = Validator::make($request->all(), [
+            'Descripcion' => 'required|string|max:255',
+            'cantidades.*' => 'required|integer|min:1',
+            'productos.*' => 'required|exists:producto,ID',
+        ], [
+            'Descripcion.required' => 'La descripción es obligatoria.',
+            'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
+            'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
+            'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
+            'productos.*.required' => 'Debes seleccionar un producto.',
+            'productos.*.exists' => 'El producto seleccionado no existe.',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        
         $venta = new Venta;
     
         // Actualiza los campos del producto con los datos del $request
@@ -78,7 +99,7 @@ class VentaController extends Controller
         }
         
     
-        return redirect()->route('venta'); // -> route no apunta a una vista, sino al controlador
+        return redirect()->route('venta')->with('success', 'Venta registrada correctamente.');
     }
 
     /**
@@ -100,9 +121,17 @@ class VentaController extends Controller
      */
     public function edit($id)
     {
-        $venta = Venta::find($id);
+        // Verificar que la venta pertenece al usuario actual
+        $venta = Venta::where('ID', $id)
+                      ->where('UsuarioID', Auth::id())
+                      ->first();
+                      
+        if (!$venta) {
+            return redirect()->route('venta')->with('error', 'Venta no encontrada.');
+        }
+        
         $productosCantidades = $venta->productos; // Asume que tienes una relación 'productos' en el modelo Venta
-        $productosDisponibles = Producto::all();
+        $productosDisponibles = Producto::where('UsuarioID', Auth::id())->get();
         return view('ventas.update', compact('venta', 'productosCantidades', 'productosDisponibles'));
     }
 
@@ -115,7 +144,34 @@ class VentaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $venta = Venta::find($id);
+        // Verificar que la venta pertenece al usuario actual
+        $venta = Venta::where('ID', $id)
+                      ->where('UsuarioID', Auth::id())
+                      ->first();
+                      
+        if (!$venta) {
+            return redirect()->route('venta')->with('error', 'Venta no encontrada.');
+        }
+        
+        // Validar los datos
+        $validator = Validator::make($request->all(), [
+            'Descripcion' => 'required|string|max:255',
+            'cantidades.*' => 'required|integer|min:1',
+            'productos.*' => 'required|exists:producto,ID',
+        ], [
+            'Descripcion.required' => 'La descripción es obligatoria.',
+            'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
+            'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
+            'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
+            'productos.*.required' => 'Debes seleccionar un producto.',
+            'productos.*.exists' => 'El producto seleccionado no existe.',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
     
         // Actualiza los campos de la venta con los datos del $request
         $venta->Descripcion = $request->Descripcion;
@@ -141,7 +197,7 @@ class VentaController extends Controller
             ]);
         }
     
-        return redirect()->route('venta'); // Redirige a la lista de ventas
+        return redirect()->route('venta')->with('success', 'Venta actualizada correctamente.');
     }
     
 
@@ -153,12 +209,20 @@ class VentaController extends Controller
      */
     public function destroy($id)
     {
-        $venta = Venta::find($id); // -> ::find($id) -> SELECT * FROM 'producto' WHERE id = $id;
-        $venta->delete(); // -> DELETE FROM 'producto' WHERE ID = $id;
+        // Verificar que la venta pertenece al usuario actual
+        $venta = Venta::where('ID', $id)
+                      ->where('UsuarioID', Auth::id())
+                      ->first();
+                      
+        if (!$venta) {
+            return redirect()->route('venta')->with('error', 'Venta no encontrada.');
+        }
+        
+        $venta->delete();
 
         // Delete all ProductoVenta entries for the specified $id
         ProductoVenta::where('VentaID', $id)->delete();
 
-        return redirect()->route('venta');
+        return redirect()->route('venta')->with('success', 'Venta eliminada correctamente.');
     }
 }

@@ -16,17 +16,67 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="card shadow-xs border">
                         <div class="card-body px-3 py-4">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+                            
                             <div class="table-responsive p-0" style="overflow: hidden">
                                 <form role="form" class="text-start" action="{{ route('gasto.store') }}" method="POST">
                                     @csrf
 
                                     <label for="Descripcion">Descripcion:</label>
                                     <div class="mb-3">
-                                        <input type="text" id="Descripcion" name="Descripcion" class="form-control" placeholder="Ingresa la descripción del gasto" aria-label="Descripcion" aria-describedby="nombre-addon">
+                                        <input type="text" id="Descripcion" name="Descripcion" class="form-control @error('Descripcion') is-invalid @enderror" 
+                                            placeholder="Ingresa la descripción del gasto" value="{{ old('Descripcion') }}" 
+                                            aria-label="Descripcion" aria-describedby="descripcion-addon">
+                                        @error('Descripcion')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="mb-3" id="filas-container">
                                         <!-- Aquí se agregarán las filas dinámicas -->
+                                        @if (old('productos'))
+                                            @foreach (old('productos') as $key => $productoID)
+                                                <div class="row my-2">
+                                                    <div class="col-md-6">
+                                                        <select name="productos[]" class="form-control @error('productos.'.$key) is-invalid @enderror">
+                                                            @foreach ($productos as $producto)
+                                                                <option value="{{ $producto->ID }}" {{ $productoID == $producto->ID ? 'selected' : '' }}>{{ $producto->Nombre }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('productos.'.$key)
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="number" name="cantidades[]" min="1" class="form-control @error('cantidades.'.$key) is-invalid @enderror" 
+                                                            placeholder="Cantidad" value="{{ old('cantidades.'.$key) }}">
+                                                        @error('cantidades.'.$key)
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </div>
                                     <button type="button" class="btn btn-dark" onclick="agregarFila()">Agregar Producto</button>
 
@@ -44,26 +94,36 @@
 
     <script>
         function eliminarFila(button) {
-            const fila = button.closest('.mb-3');
+            const fila = button.closest('.row');
             fila.remove();
         }
         function agregarFila() {
             const fila = `
                 <div class="row my-2">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <select name="productos[]" class="form-control">
                             @foreach ($productos as $producto)
                                 <option value="{{ $producto->ID }}">{{ $producto->Nombre }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-6">
-                        <input type="number" name="cantidades[]" class="form-control" placeholder="Cantidad">
+                    <div class="col-md-5">
+                        <input type="number" name="cantidades[]" min="1" class="form-control" placeholder="Cantidad">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button>
                     </div>
                 </div>
             `;
             document.getElementById('filas-container').insertAdjacentHTML('beforeend', fila);
         }
+
+        // Agregar al menos una fila si no hay ninguna
+        window.onload = function() {
+            if (document.getElementById('filas-container').children.length === 0) {
+                agregarFila();
+            }
+        };
     </script>
 
 </x-app-layout>

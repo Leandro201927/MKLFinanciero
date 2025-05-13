@@ -16,18 +16,44 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="card shadow-xs border">
                         <div class="card-body px-3 py-4">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
                             <div class="table-responsive p-0">
                                 <form role="form" class="text-start" action="{{ route('producto.store') }}" method="POST">
                                     @csrf
 
                                     <label for="Nombre">Nombre:</label>
                                     <div class="mb-3">
-                                        <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Ingresa el nombre del producto" aria-label="Nombre" aria-describedby="nombre-addon">
+                                        <input type="text" id="Nombre" name="Nombre" class="form-control @error('Nombre') is-invalid @enderror" 
+                                            placeholder="Ingresa el nombre del producto" value="{{ old('Nombre') }}" 
+                                            aria-label="Nombre" aria-describedby="nombre-addon">
+                                        @error('Nombre')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <label for="Precio">Precio:</label>
                                     <div class="mb-3">
-                                        <input type="text" id="Precio" name="Precio" class="form-control" placeholder="Ingresa el precio del producto" aria-label="Precio" aria-describedby="precio-addon">
+                                        <input type="text" id="Precio" name="Precio" class="form-control @error('Precio') is-invalid @enderror" 
+                                            placeholder="Ingresa el precio del producto" value="{{ old('Precio') }}" 
+                                            aria-label="Precio" aria-describedby="precio-addon">
+                                        @error('Precio')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="text-center">

@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use pdf;
 use Illuminate\Http\Request;
 use App\Models\Producto;
-
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ProductoController extends Controller
 {
@@ -54,6 +55,29 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar que el nombre sea único para este usuario
+        $validator = Validator::make($request->all(), [
+            'Nombre' => [
+                'required',
+                Rule::unique('producto')->where(function ($query) {
+                    return $query->where('UsuarioID', Auth::id());
+                }),
+            ],
+            'Precio' => 'required|numeric|min:0',
+        ], [
+            'Nombre.required' => 'El nombre del producto es obligatorio.',
+            'Nombre.unique' => 'Ya tienes un producto con este nombre.',
+            'Precio.required' => 'El precio es obligatorio.',
+            'Precio.numeric' => 'El precio debe ser un número.',
+            'Precio.min' => 'El precio no puede ser negativo.',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+    
         $producto = new Producto;
     
         // Actualiza los campos del producto con los datos del $request
@@ -63,7 +87,7 @@ class ProductoController extends Controller
     
         $producto->save();
     
-        return redirect()->route('producto'); // -> route no apunta a una vista, sino al controlador
+        return redirect()->route('producto')->with('success', 'Producto creado correctamente.');
     }
 
     /**
@@ -85,8 +109,15 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
-        // return view('Usuario.update', compact('usuario'));
-        $producto = Producto::find($id); // -> ::find($id) -> SELECT * FROM 'Producto' WHERE id = $id;
+        // Verificar que el producto pertenece al usuario actual
+        $producto = Producto::where('ID', $id)
+                            ->where('UsuarioID', Auth::id())
+                            ->first();
+        
+        if (!$producto) {
+            return redirect()->route('producto')->with('error', 'Producto no encontrado.');
+        }
+        
         return view('productos.update', compact('producto'));
     }
 
@@ -99,7 +130,38 @@ class ProductoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $producto = Producto::find($id);
+        // Verificar que el producto pertenece al usuario actual
+        $producto = Producto::where('ID', $id)
+                            ->where('UsuarioID', Auth::id())
+                            ->first();
+        
+        if (!$producto) {
+            return redirect()->route('producto')->with('error', 'Producto no encontrado.');
+        }
+        
+        // Validar que el nombre sea único para este usuario (excepto para este mismo producto)
+        $validator = Validator::make($request->all(), [
+            'Nombre' => [
+                'required',
+                Rule::unique('producto')->where(function ($query) use ($id) {
+                    return $query->where('UsuarioID', Auth::id())
+                                ->where('ID', '!=', $id);
+                }),
+            ],
+            'Precio' => 'required|numeric|min:0',
+        ], [
+            'Nombre.required' => 'El nombre del producto es obligatorio.',
+            'Nombre.unique' => 'Ya tienes otro producto con este nombre.',
+            'Precio.required' => 'El precio es obligatorio.',
+            'Precio.numeric' => 'El precio debe ser un número.',
+            'Precio.min' => 'El precio no puede ser negativo.',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
     
         // Actualiza los campos del producto con los datos del $request
         $producto->Nombre = $request->Nombre;
@@ -107,7 +169,7 @@ class ProductoController extends Controller
     
         $producto->save();
     
-        return redirect()->route('producto'); // -> route no apunta a una vista, sino al controlador
+        return redirect()->route('producto')->with('success', 'Producto actualizado correctamente.');
     }
 
     /**
@@ -118,9 +180,17 @@ class ProductoController extends Controller
      */
     public function destroy($id)
     {
-        $producto = Producto::find($id); // -> ::find($id) -> SELECT * FROM 'producto' WHERE id = $id;
-        $producto->delete(); // -> DELETE FROM 'producto' WHERE ID = $id;
+        // Verificar que el producto pertenece al usuario actual
+        $producto = Producto::where('ID', $id)
+                            ->where('UsuarioID', Auth::id())
+                            ->first();
+        
+        if (!$producto) {
+            return redirect()->route('producto')->with('error', 'Producto no encontrado.');
+        }
+        
+        $producto->delete();
 
-        return redirect()->route('producto');
+        return redirect()->route('producto')->with('success', 'Producto eliminado correctamente.');
     }
 }

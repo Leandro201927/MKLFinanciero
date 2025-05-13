@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\ProductoGasto;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GastoController extends Controller
 {
@@ -38,6 +39,26 @@ class GastoController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los datos
+        $validator = Validator::make($request->all(), [
+            'Descripcion' => 'required|string|max:255',
+            'cantidades.*' => 'required|integer|min:1',
+            'productos.*' => 'required|exists:producto,ID',
+        ], [
+            'Descripcion.required' => 'La descripción es obligatoria.',
+            'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
+            'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
+            'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
+            'productos.*.required' => 'Debes seleccionar un producto.',
+            'productos.*.exists' => 'El producto seleccionado no existe.',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        
         $gasto = new Gasto;
 
         $gasto->UsuarioID = Auth::id();
@@ -60,7 +81,7 @@ class GastoController extends Controller
             ]);
         }
 
-        return redirect()->route('gasto');
+        return redirect()->route('gasto')->with('success', 'Gasto registrado correctamente.');
     }
 
     /**
@@ -76,9 +97,17 @@ class GastoController extends Controller
      */
     public function edit(string $id)
     {
-        $gasto = Gasto::find($id);
+        // Verificar que el gasto pertenece al usuario actual
+        $gasto = Gasto::where('ID', $id)
+                      ->where('UsuarioID', Auth::id())
+                      ->first();
+                      
+        if (!$gasto) {
+            return redirect()->route('gasto')->with('error', 'Gasto no encontrado.');
+        }
+        
         $productosCantidades = $gasto->productos; // Asume que tienes una relación 'productos' en el modelo gasto
-        $productosDisponibles = Producto::all();
+        $productosDisponibles = Producto::where('UsuarioID', Auth::id())->get();
         return view('gastos.update', compact('gasto', 'productosCantidades', 'productosDisponibles'));
     }
 
@@ -87,7 +116,34 @@ class GastoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $gasto = Gasto::find($id);
+        // Verificar que el gasto pertenece al usuario actual
+        $gasto = Gasto::where('ID', $id)
+                      ->where('UsuarioID', Auth::id())
+                      ->first();
+                      
+        if (!$gasto) {
+            return redirect()->route('gasto')->with('error', 'Gasto no encontrado.');
+        }
+        
+        // Validar los datos
+        $validator = Validator::make($request->all(), [
+            'Descripcion' => 'required|string|max:255',
+            'cantidades.*' => 'required|integer|min:1',
+            'productos.*' => 'required|exists:producto,ID',
+        ], [
+            'Descripcion.required' => 'La descripción es obligatoria.',
+            'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
+            'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
+            'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
+            'productos.*.required' => 'Debes seleccionar un producto.',
+            'productos.*.exists' => 'El producto seleccionado no existe.',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
         $gasto->Descripcion = $request->Descripcion;
 
@@ -108,7 +164,7 @@ class GastoController extends Controller
             ]);
         }
 
-        return redirect()->route('gasto');
+        return redirect()->route('gasto')->with('success', 'Gasto actualizado correctamente.');
     }
 
     /**
@@ -116,12 +172,20 @@ class GastoController extends Controller
      */
     public function destroy(string $id)
     {
-        $gasto = Gasto::find($id);
+        // Verificar que el gasto pertenece al usuario actual
+        $gasto = Gasto::where('ID', $id)
+                      ->where('UsuarioID', Auth::id())
+                      ->first();
+                      
+        if (!$gasto) {
+            return redirect()->route('gasto')->with('error', 'Gasto no encontrado.');
+        }
+        
         $gasto->delete();
 
         // Delete all ProductoGasto entries for the specified $id
         ProductoGasto::where('MovimientoID', $id)->delete();
 
-        return redirect()->route('gasto');
+        return redirect()->route('gasto')->with('success', 'Gasto eliminado correctamente.');
     }
 }
