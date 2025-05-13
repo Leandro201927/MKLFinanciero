@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,23 @@ Route::get('/signup', function () {
     return view('account-pages.signup');
 })->name('signup')->middleware('guest');
 
+// Rutas para verificación de correo durante el registro
+Route::get('/verify-email', [VerificationController::class, 'showEmailForm'])
+    ->middleware('guest')
+    ->name('verify.email.form');
+
+Route::post('/verify-email', [VerificationController::class, 'sendVerificationCode'])
+    ->middleware('guest')
+    ->name('verify.email.send');
+
+Route::get('/verify-code', [VerificationController::class, 'showCodeForm'])
+    ->middleware('guest')
+    ->name('verify.code.form');
+
+Route::post('/verify-code', [VerificationController::class, 'verifyCode'])
+    ->middleware('guest')
+    ->name('verify.code');
+
 Route::get('/sign-up', [RegisterController::class, 'create'])
     ->middleware('guest')
     ->name('sign-up');
@@ -77,3 +95,20 @@ Route::post('/sign-in', [LoginController::class, 'store'])
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+// Rutas para el restablecimiento de contraseña
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])
+    ->middleware('guest')
+    ->name('password.reset');
+
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
+    ->middleware('guest')
+    ->name('password.update');

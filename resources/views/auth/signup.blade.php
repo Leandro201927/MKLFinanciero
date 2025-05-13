@@ -56,6 +56,13 @@
                                     <h3 class="font-weight-black text-dark display-6">Registrarse</h3>
                                     <p class="mb-0">¡Mucho gusto! Por favor ingresa tus datos.</p>
                                 </div>
+                                <div class="text-center">
+                                    @if (session('status'))
+                                        <div class="alert alert-success text-sm" role="alert">
+                                            {{ session('status') }}
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="card-body">
                                     <form role="form" method="POST" action="sign-up">
                                         @csrf
@@ -71,8 +78,8 @@
                                         <label>Dirección de correo electrónico</label>
                                         <div class="mb-3">
                                             <input type="email" id="email" name="email" class="form-control"
-                                                placeholder="Ingresa tu dirección de correo electrónico" value="{{old("email")}}" aria-label="Email"
-                                                aria-describedby="email-addon">
+                                                placeholder="Ingresa tu dirección de correo electrónico" value="{{ $email }}" readonly
+                                                aria-label="Email" aria-describedby="email-addon">
                                             @error('email')
                                                 <span class="text-danger text-sm">{{ $message }}</span>
                                             @enderror
