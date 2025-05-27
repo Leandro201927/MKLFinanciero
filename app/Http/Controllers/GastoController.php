@@ -167,12 +167,11 @@ class GastoController extends Controller
 
         // Obtener los productos y cantidades actuales
         $productosActuales = ProductoGasto::where('MovimientoID', $id)->get();
+        $cantidadesActuales = [];
         
-        // Restaurar las cantidades originales
+        // Guardar las cantidades actuales por producto
         foreach ($productosActuales as $productoActual) {
-            $producto = Producto::find($productoActual->ProductoID);
-            $producto->Cantidad -= $productoActual->Cantidad_Productos;
-            $producto->save();
+            $cantidadesActuales[$productoActual->ProductoID] = $productoActual->Cantidad_Productos;
         }
 
         $gasto->Descripcion = $request->Descripcion;
@@ -185,21 +184,40 @@ class GastoController extends Controller
 
         foreach ($productos as $key => $productoID) {
             $producto = Producto::find($productoID);
-            $cantidad = $cantidades[$key];
+            $cantidadNueva = $cantidades[$key];
+            $cantidadAnterior = $cantidadesActuales[$productoID] ?? 0;
+            $diferencia = $cantidadNueva - $cantidadAnterior;
             $valor_unitario = $request->valores_unitarios[$key];
-            $valor_total = $valor_unitario * $cantidad;
+            $valor_total = $valor_unitario * $cantidadNueva;
+
+            // Si la diferencia es positiva, sumar al stock
+            if ($diferencia > 0) {
+                $producto->Cantidad += $diferencia;
+            } else {
+                // Si la diferencia es negativa, verificar si hay suficiente stock para restar
+                if ($producto->Cantidad < abs($diferencia)) {
+                    // Restaurar las cantidades originales antes de redirigir
+                    foreach ($productosActuales as $productoActual) {
+                        $producto = Producto::find($productoActual->ProductoID);
+                        $producto->Cantidad -= $productoActual->Cantidad_Productos;
+                        $producto->save();
+                    }
+                    return redirect()->back()
+                        ->withErrors(['stock' => "No hay suficiente stock disponible para reducir la cantidad del producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}, Cantidad a reducir: " . abs($diferencia)])
+                        ->withInput();
+                }
+                // Restar la diferencia del stock
+                $producto->Cantidad -= abs($diferencia);
+            }
+            $producto->save();
 
             ProductoGasto::create([
                 'MovimientoID' => $id,
                 'ProductoID' => $productoID,
-                'Cantidad_Productos' => $cantidad,
+                'Cantidad_Productos' => $cantidadNueva,
                 'Valor_Unitario' => $valor_unitario,
                 'Valor_Total' => $valor_total
             ]);
-
-            // Actualizar el stock del producto
-            $producto->Cantidad += $cantidad;
-            $producto->save();
         }
 
         return redirect()->route('gasto')->with('success', 'Gasto actualizado correctamente.');

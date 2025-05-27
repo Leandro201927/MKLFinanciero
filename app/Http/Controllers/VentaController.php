@@ -202,12 +202,11 @@ class VentaController extends Controller
 
         // Obtener los productos y cantidades actuales
         $productosActuales = ProductoVenta::where('VentaID', $id)->get();
+        $cantidadesActuales = [];
         
-        // Restaurar las cantidades originales
+        // Guardar las cantidades actuales por producto
         foreach ($productosActuales as $productoActual) {
-            $producto = Producto::find($productoActual->ProductoID);
-            $producto->Cantidad += $productoActual->Cantidad_Productos;
-            $producto->save();
+            $cantidadesActuales[$productoActual->ProductoID] = $productoActual->Cantidad_Productos;
         }
     
         // Actualiza los campos de la venta con los datos del $request
@@ -224,34 +223,40 @@ class VentaController extends Controller
         // Crea nuevas entradas en ProductoVenta con los datos actualizados
         foreach ($productos as $key => $productoID) {
             $producto = Producto::find($productoID);
-            $cantidad = $cantidades[$key];
+            $cantidadNueva = $cantidades[$key];
+            $cantidadAnterior = $cantidadesActuales[$productoID] ?? 0;
+            $diferencia = $cantidadNueva - $cantidadAnterior;
             $valor_unitario = $request->valores_unitarios[$key];
-            $valor_total = $valor_unitario * $cantidad;
+            $valor_total = $valor_unitario * $cantidadNueva;
 
-            // Verificar stock disponible
-            if ($producto->Cantidad < $cantidad) {
-                // Restaurar las cantidades originales antes de redirigir
-                foreach ($productosActuales as $productoActual) {
-                    $producto = Producto::find($productoActual->ProductoID);
-                    $producto->Cantidad -= $productoActual->Cantidad_Productos;
-                    $producto->save();
+            // Si la diferencia es positiva, necesitamos verificar si hay suficiente stock
+            if ($diferencia > 0) {
+                if ($producto->Cantidad < $diferencia) {
+                    // Restaurar las cantidades originales antes de redirigir
+                    foreach ($productosActuales as $productoActual) {
+                        $producto = Producto::find($productoActual->ProductoID);
+                        $producto->Cantidad += $productoActual->Cantidad_Productos;
+                        $producto->save();
+                    }
+                    return redirect()->back()
+                        ->withErrors(['stock' => "No hay suficiente stock disponible para el producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}, Cantidad adicional necesaria: {$diferencia}"])
+                        ->withInput();
                 }
-                return redirect()->back()
-                    ->withErrors(['stock' => "No hay suficiente stock disponible para el producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}"])
-                    ->withInput();
+                // Descontar la diferencia del stock
+                $producto->Cantidad -= $diferencia;
+            } else {
+                // Si la diferencia es negativa, devolver la diferencia al stock
+                $producto->Cantidad += abs($diferencia);
             }
+            $producto->save();
 
             ProductoVenta::create([
                 'VentaID' => $id,
                 'ProductoID' => $productoID,
-                'Cantidad_Productos' => $cantidad,
+                'Cantidad_Productos' => $cantidadNueva,
                 'Valor_Unitario' => $valor_unitario,
                 'Valor_Total' => $valor_total
             ]);
-
-            // Actualizar el stock del producto
-            $producto->Cantidad -= $cantidad;
-            $producto->save();
         }
     
         return redirect()->route('venta')->with('success', 'Venta actualizada correctamente.');
