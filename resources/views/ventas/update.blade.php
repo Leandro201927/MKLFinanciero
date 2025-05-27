@@ -85,7 +85,7 @@
                                                         <label>Valor Unitario:</label>
                                                         <input type="number" name="valores_unitarios[]" min="0" step="0.01"
                                                             class="form-control @error('valores_unitarios.'.$key) is-invalid @enderror" 
-                                                            placeholder="Valor Unitario" value="{{ old('valores_unitarios.'.$key, $productoCantidad->Valor_Unitario) }}">
+                                                            placeholder="Valor Unitario" value="{{ old('valores_unitarios.'.$key) }}">
                                                         @error('valores_unitarios.'.$key)
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror

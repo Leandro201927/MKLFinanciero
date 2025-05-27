@@ -41,12 +41,11 @@ class GastoController extends Controller
     {
         // Validar los datos
         $validator = Validator::make($request->all(), [
-            'Descripcion' => 'required|string|max:255',
+            'Descripcion' => 'nullable|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
             'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
-            'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
             'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
@@ -62,17 +61,37 @@ class GastoController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        // Verificar que haya al menos un producto
+        $productos = $request->input('productos', []);
+        if (empty($productos)) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'Debe agregar al menos un producto al gasto.'])
+                ->withInput();
+        }
+
+        // Verificar productos duplicados
+        if (count($productos) !== count(array_unique($productos))) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'No se pueden agregar productos duplicados.'])
+                ->withInput();
+        }
         
         $gasto = new Gasto;
     
+        // Generar código automático
+        $ultimoGasto = Gasto::where('UsuarioID', Auth::id())->orderBy('ID', 'desc')->first();
+        $numero = $ultimoGasto ? intval(substr($ultimoGasto->Codigo, 6)) + 1 : 1;
+        $codigo = 'GASTO#' . str_pad($numero, 3, '0', STR_PAD_LEFT);
+        
         // Actualiza los campos del gasto con los datos del $request
         $gasto->UsuarioID = Auth::id();
+        $gasto->Codigo = $codigo;
         $gasto->Descripcion = $request->Descripcion;
         $gasto->Fecha_Gasto = now();
         $gasto->save();
 
         // Obtén los productos, cantidades y valores unitarios
-        $productos = $request->input('productos');
         $cantidades = $request->input('cantidades');
         $valores_unitarios = $request->input('valores_unitarios');
 
@@ -143,12 +162,11 @@ class GastoController extends Controller
         
         // Validar los datos
         $validator = Validator::make($request->all(), [
-            'Descripcion' => 'required|string|max:255',
+            'Descripcion' => 'nullable|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
             'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
-            'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
             'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
@@ -165,6 +183,21 @@ class GastoController extends Controller
                 ->withInput();
         }
 
+        // Verificar que haya al menos un producto
+        $productos = $request->input('productos', []);
+        if (empty($productos)) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'Debe agregar al menos un producto al gasto.'])
+                ->withInput();
+        }
+
+        // Verificar productos duplicados
+        if (count($productos) !== count(array_unique($productos))) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'No se pueden agregar productos duplicados.'])
+                ->withInput();
+        }
+
         // Obtener los productos y cantidades actuales
         $productosActuales = ProductoGasto::where('MovimientoID', $id)->get();
         $cantidadesActuales = [];
@@ -177,38 +210,26 @@ class GastoController extends Controller
         $gasto->Descripcion = $request->Descripcion;
         $gasto->save(); 
 
-        $productos = $request->input('productos');
-        $cantidades = $request->input('cantidades');
+        $cantidades = $request->input('cantidades', []);
 
+        // Primero, restaurar el stock de todos los productos actuales
+        foreach ($productosActuales as $productoActual) {
+            $producto = Producto::find($productoActual->ProductoID);
+            $producto->Cantidad -= $productoActual->Cantidad_Productos;
+            $producto->save();
+        }
+
+        // Eliminar todas las entradas anteriores en ProductoGasto
         ProductoGasto::where('MovimientoID', $id)->delete();
 
         foreach ($productos as $key => $productoID) {
             $producto = Producto::find($productoID);
             $cantidadNueva = $cantidades[$key];
-            $cantidadAnterior = $cantidadesActuales[$productoID] ?? 0;
-            $diferencia = $cantidadNueva - $cantidadAnterior;
             $valor_unitario = $request->valores_unitarios[$key];
             $valor_total = $valor_unitario * $cantidadNueva;
 
-            // Si la diferencia es positiva, sumar al stock
-            if ($diferencia > 0) {
-                $producto->Cantidad += $diferencia;
-            } else {
-                // Si la diferencia es negativa, verificar si hay suficiente stock para restar
-                if ($producto->Cantidad < abs($diferencia)) {
-                    // Restaurar las cantidades originales antes de redirigir
-                    foreach ($productosActuales as $productoActual) {
-                        $producto = Producto::find($productoActual->ProductoID);
-                        $producto->Cantidad -= $productoActual->Cantidad_Productos;
-                        $producto->save();
-                    }
-                    return redirect()->back()
-                        ->withErrors(['stock' => "No hay suficiente stock disponible para reducir la cantidad del producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}, Cantidad a reducir: " . abs($diferencia)])
-                        ->withInput();
-                }
-                // Restar la diferencia del stock
-                $producto->Cantidad -= abs($diferencia);
-            }
+            // Actualizar el stock del producto
+            $producto->Cantidad += $cantidadNueva;
             $producto->save();
 
             ProductoGasto::create([

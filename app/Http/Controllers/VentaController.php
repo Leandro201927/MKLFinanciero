@@ -57,12 +57,11 @@ class VentaController extends Controller
     {
         // Validar los datos
         $validator = Validator::make($request->all(), [
-            'Descripcion' => 'required|string|max:255',
+            'Descripcion' => 'nullable|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
             'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
-            'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
             'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
@@ -79,8 +78,22 @@ class VentaController extends Controller
                 ->withInput();
         }
 
+        // Verificar que haya al menos un producto
+        $productos = $request->input('productos', []);
+        if (empty($productos)) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'Debe agregar al menos un producto a la venta.'])
+                ->withInput();
+        }
+
+        // Verificar productos duplicados
+        if (count($productos) !== count(array_unique($productos))) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'No se pueden agregar productos duplicados.'])
+                ->withInput();
+        }
+
         // Verificar stock disponible para cada producto
-        $productos = $request->input('productos');
         $cantidades = $request->input('cantidades');
         $valores_unitarios = $request->input('valores_unitarios');
 
@@ -95,8 +108,14 @@ class VentaController extends Controller
         
         $venta = new Venta;
     
+        // Generar código automático
+        $ultimaVenta = Venta::where('UsuarioID', Auth::id())->orderBy('ID', 'desc')->first();
+        $numero = $ultimaVenta ? intval(substr($ultimaVenta->Codigo, 6)) + 1 : 1;
+        $codigo = 'VENTA#' . str_pad($numero, 3, '0', STR_PAD_LEFT);
+        
         // Actualiza los campos del producto con los datos del $request
         $venta->UsuarioID = Auth::id();
+        $venta->Codigo = $codigo;
         $venta->Descripcion = $request->Descripcion;
         $venta->Fecha_Venta = now();
         $venta->save();
@@ -178,12 +197,11 @@ class VentaController extends Controller
         
         // Validar los datos
         $validator = Validator::make($request->all(), [
-            'Descripcion' => 'required|string|max:255',
+            'Descripcion' => 'nullable|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
             'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
-            'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
             'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
@@ -197,6 +215,21 @@ class VentaController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Verificar que haya al menos un producto
+        $productos = $request->input('productos', []);
+        if (empty($productos)) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'Debe agregar al menos un producto a la venta.'])
+                ->withInput();
+        }
+
+        // Verificar productos duplicados
+        if (count($productos) !== count(array_unique($productos))) {
+            return redirect()->back()
+                ->withErrors(['productos' => 'No se pueden agregar productos duplicados.'])
                 ->withInput();
         }
 
@@ -214,40 +247,40 @@ class VentaController extends Controller
         $venta->save();
     
         // Actualiza los productos y cantidades relacionados
-        $productos = $request->input('productos');
-        $cantidades = $request->input('cantidades');
+        $cantidades = $request->input('cantidades', []);
     
-        // Elimina las entradas anteriores en ProductoVenta para esta venta
+        // Primero, restaurar el stock de todos los productos actuales
+        foreach ($productosActuales as $productoActual) {
+            $producto = Producto::find($productoActual->ProductoID);
+            $producto->Cantidad += $productoActual->Cantidad_Productos;
+            $producto->save();
+        }
+
+        // Eliminar todas las entradas anteriores en ProductoVenta
         ProductoVenta::where('VentaID', $id)->delete();
     
-        // Crea nuevas entradas en ProductoVenta con los datos actualizados
+        // Crear nuevas entradas en ProductoVenta con los datos actualizados
         foreach ($productos as $key => $productoID) {
             $producto = Producto::find($productoID);
             $cantidadNueva = $cantidades[$key];
-            $cantidadAnterior = $cantidadesActuales[$productoID] ?? 0;
-            $diferencia = $cantidadNueva - $cantidadAnterior;
             $valor_unitario = $request->valores_unitarios[$key];
             $valor_total = $valor_unitario * $cantidadNueva;
 
-            // Si la diferencia es positiva, necesitamos verificar si hay suficiente stock
-            if ($diferencia > 0) {
-                if ($producto->Cantidad < $diferencia) {
-                    // Restaurar las cantidades originales antes de redirigir
-                    foreach ($productosActuales as $productoActual) {
-                        $producto = Producto::find($productoActual->ProductoID);
-                        $producto->Cantidad += $productoActual->Cantidad_Productos;
-                        $producto->save();
-                    }
-                    return redirect()->back()
-                        ->withErrors(['stock' => "No hay suficiente stock disponible para el producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}, Cantidad adicional necesaria: {$diferencia}"])
-                        ->withInput();
+            // Verificar si hay suficiente stock para la nueva cantidad
+            if ($producto->Cantidad < $cantidadNueva) {
+                // Restaurar las cantidades originales antes de redirigir
+                foreach ($productosActuales as $productoActual) {
+                    $producto = Producto::find($productoActual->ProductoID);
+                    $producto->Cantidad -= $productoActual->Cantidad_Productos;
+                    $producto->save();
                 }
-                // Descontar la diferencia del stock
-                $producto->Cantidad -= $diferencia;
-            } else {
-                // Si la diferencia es negativa, devolver la diferencia al stock
-                $producto->Cantidad += abs($diferencia);
+                return redirect()->back()
+                    ->withErrors(['stock' => "No hay suficiente stock disponible para el producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}, Cantidad requerida: {$cantidadNueva}"])
+                    ->withInput();
             }
+
+            // Descontar la nueva cantidad del stock
+            $producto->Cantidad -= $cantidadNueva;
             $producto->save();
 
             ProductoVenta::create([

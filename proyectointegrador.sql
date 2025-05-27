@@ -16,7 +16,8 @@ DROP TABLE IF EXISTS `movimiento`;
 CREATE TABLE IF NOT EXISTS `movimiento` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `UsuarioID` int NOT NULL,
-  `Descripcion` varchar(100) NOT NULL,
+  `Codigo` varchar(20) NOT NULL,
+  `Descripcion` varchar(100) DEFAULT NULL,
   `Fecha_Gasto` date NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -24,13 +25,6 @@ CREATE TABLE IF NOT EXISTS `movimiento` (
   PRIMARY KEY (`ID`),
   KEY `UsuarioID` (`UsuarioID`)
 ) AUTO_INCREMENT=2;
-
---
--- Volcado de datos para la tabla `movimiento`
---
-
--- INSERT INTO `movimiento` (`ID`, `UsuarioID`, `Descripcion`, `Fecha_Gasto`) VALUES
--- (1, 1, 'Gasto en material de oficina', '2023-11-15');
 
 --
 -- Estructura de tabla para la tabla `producto`
@@ -48,13 +42,6 @@ CREATE TABLE IF NOT EXISTS `producto` (
   PRIMARY KEY (`ID`),
   KEY `UsuarioID` (`UsuarioID`)
 ) AUTO_INCREMENT=9;
-
---
--- Volcado de datos para la tabla `producto`
---
-
--- INSERT INTO `producto` (`ID`, `UsuarioID`, `Nombre`, `Cantidad`) VALUES
--- (1, 1, 'Dorilocos', 100);
 
 --
 -- Estructura de tabla para la tabla `producto_gasto`
@@ -77,14 +64,6 @@ CREATE TABLE IF NOT EXISTS `producto_gasto` (
 ) AUTO_INCREMENT=3;
 
 --
--- Volcado de datos para la tabla `producto_gasto`
---
-
--- INSERT INTO `producto_gasto` (`ID`, `MovimientoID`, `ProductoID`, `Cantidad_Productos`, `Valor_Unitario`, `Valor_Total`) VALUES
--- (1, 1, 1, 100, 123.05, 12305.00),
--- (2, 1, 1, 561, 124.95, 70096.95);
-
---
 -- Estructura de tabla para la tabla `producto_venta`
 --
 
@@ -103,14 +82,6 @@ CREATE TABLE IF NOT EXISTS `producto_venta` (
   KEY `VentaID` (`VentaID`),
   KEY `ProductoID` (`ProductoID`)
 ) AUTO_INCREMENT=3;
-
---
--- Volcado de datos para la tabla `producto_venta`
---
-
--- INSERT INTO `producto_venta` (`ID`, `VentaID`, `ProductoID`, `Cantidad_Productos`, `Valor_Unitario`, `Valor_Total`) VALUES
--- (1, 1, 2, 300, 2052.75, 615825.00),
--- (2, 1, 2, 700, 4789.75, 3352825.00);
 
 --
 -- Estructura de tabla para la tabla `users`
@@ -146,7 +117,8 @@ DROP TABLE IF EXISTS `venta`;
 CREATE TABLE IF NOT EXISTS `venta` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `UsuarioID` int NOT NULL,
-  `Descripcion` varchar(100) NOT NULL,
+  `Codigo` varchar(20) NOT NULL,
+  `Descripcion` varchar(100) DEFAULT NULL,
   `Fecha_Venta` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -154,14 +126,6 @@ CREATE TABLE IF NOT EXISTS `venta` (
   PRIMARY KEY (`ID`),
   KEY `UsuarioID` (`UsuarioID`)
 ) AUTO_INCREMENT=4;
-
---
--- Volcado de datos para la tabla `venta`
---
-
--- INSERT INTO `venta` (`ID`, `UsuarioID`, `Descripcion`, `Fecha_Venta`) VALUES
--- (1, 1, 'Holaaaa', '2023-11-17 05:00:00'),
--- (2, 1, 'Ejemplo', '2024-04-10 07:00:12');
 
 --
 -- Estructura de tabla para la tabla `password_resets`

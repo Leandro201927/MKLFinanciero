@@ -4,7 +4,7 @@
         <thead class="bg-gray-100">
             <tr>
                 <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
-                <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
+                <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Código</th>
                 <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Descripcion</th>
                 <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Fecha_Venta</th>
                 <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
@@ -21,13 +21,13 @@
                         </div>
                     </td>
                     <td>
-                        <p class="text-sm text-dark font-weight-semibold mb-0">{{ $venta->UsuarioID }}</p>
+                        <p class="text-sm text-dark font-weight-semibold mb-0">{{ $venta->Codigo }}</p>
                     </td>
                     <td class="align-middle text-center text-sm">
                         <span class="text-secondary text-sm font-weight-normal">{{ $venta->Descripcion }}</span>
                     </td>
                     <td class="align-middle text-center">
-                        <span class="text-secondary text-sm font-weight-normal">{{ $venta-$_COOKIE>Fecha_Venta }}</span>
+                        <span class="text-secondary text-sm font-weight-normal">{{ $venta->Fecha_Venta }}</span>
                     </td>
                     <td class="align-middle">
                         <a href="{{ route('venta.edit', $venta->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
@@ -119,7 +119,7 @@
                                   <thead class="bg-gray-100">
                                       <tr>
                                           <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
-                                          <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
+                                          <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Código</th>
                                           <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Descripcion</th>
                                           <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Fecha_Venta</th>
                                           <th class="text-secondary text-xs font-weight-opacity-7">Acciones</th>
@@ -136,7 +136,7 @@
                                                   </div>
                                               </td>
                                               <td>
-                                                  <p class="text-sm text-dark font-weight-semibold mb-0">{{ $venta->UsuarioID }}</p>
+                                                  <p class="text-sm text-dark font-weight-semibold mb-0">{{ $venta->Codigo }}</p>
                                               </td>
                                               <td class="align-middle text-center text-sm">
                                                   <span class="text-secondary text-sm font-weight-normal">{{ $venta->Descripcion }}</span>
