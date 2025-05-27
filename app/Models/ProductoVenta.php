@@ -11,7 +11,13 @@ class ProductoVenta extends Model
     protected $primaryKey = 'ID';
     public $timestamps = true;
 
-    protected $fillable = ['VentaID', 'ProductoID', 'ImpuestoID', 'Cantidad_Productos', 'Valor_Total'];
+    protected $fillable = [
+        'VentaID', 
+        'ProductoID', 
+        'Cantidad_Productos', 
+        'Valor_Unitario',
+        'Valor_Total'
+    ];
 
     public function producto()
     {

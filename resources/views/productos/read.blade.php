@@ -7,7 +7,7 @@
                     <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
                     <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
                     <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Nombre</th>
-                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Precio</th>
+                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Cantidad</th>
                     <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
                 </tr>
             </thead>
@@ -29,7 +29,7 @@
                                 <span class="text-secondary text-sm font-weight-normal">{{ $producto->Nombre }}</span>
                             </td>
                             <td class="align-middle text-center">
-                                <span class="text-secondary text-sm font-weight-normal">{{ $producto->Precio }}</span>
+                                <span class="text-secondary text-sm font-weight-normal">{{ $producto->Cantidad }}</span>
                             </td>
                             <td class="align-middle">
                                 <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
@@ -146,7 +146,7 @@
                                           <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
                                           <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
                                           <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Nombre</th>
-                                          <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Precio</th>
+                                          <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Cantidad</th>
                                           <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
                                       </tr>
                                   </thead>
@@ -168,7 +168,7 @@
                                                     <span class="text-secondary text-sm font-weight-normal">{{ $producto->Nombre }}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <span class="text-secondary text-sm font-weight-normal">{{ $producto->Precio }}</span>
+                                                    <span class="text-secondary text-sm font-weight-normal">{{ $producto->Cantidad }}</span>
                                                 </td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>

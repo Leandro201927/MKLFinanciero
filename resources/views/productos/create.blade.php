@@ -46,12 +46,12 @@
                                         @enderror
                                     </div>
 
-                                    <label for="Precio">Precio:</label>
+                                    <label for="Cantidad">Cantidad Inicial:</label>
                                     <div class="mb-3">
-                                        <input type="text" id="Precio" name="Precio" class="form-control @error('Precio') is-invalid @enderror" 
-                                            placeholder="Ingresa el precio del producto" value="{{ old('Precio') }}" 
-                                            aria-label="Precio" aria-describedby="precio-addon">
-                                        @error('Precio')
+                                        <input type="number" id="Cantidad" name="Cantidad" min="0" class="form-control @error('Cantidad') is-invalid @enderror" 
+                                            placeholder="Ingresa la cantidad inicial del producto" value="{{ old('Cantidad') }}" 
+                                            aria-label="Cantidad" aria-describedby="cantidad-addon">
+                                        @error('Cantidad')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

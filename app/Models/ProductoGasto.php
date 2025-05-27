@@ -11,7 +11,13 @@ class ProductoGasto extends Model
     protected $primaryKey = 'ID';
     public $timestamps = true;
 
-    protected $fillable = ['MovimientoID', 'ProductoID', 'ImpuestoID', 'Cantidad_Productos', 'Valor_Total'];
+    protected $fillable = [
+        'MovimientoID', 
+        'ProductoID', 
+        'Cantidad_Productos', 
+        'Valor_Unitario',
+        'Valor_Total'
+    ];
 
     public function producto()
     {

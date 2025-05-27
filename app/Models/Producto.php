@@ -16,7 +16,7 @@ class Producto extends Model
     protected $fillable = [
         'UsuarioID',
         'Nombre',
-        'Precio'
+        'Cantidad'
     ];
 
     public function usuario()

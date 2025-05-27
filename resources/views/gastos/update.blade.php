@@ -59,7 +59,7 @@
                                         @if (old('productos'))
                                             @foreach (old('productos') as $key => $productoID)
                                                 <div class="row mb-3">
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-3">
                                                         <label>Producto:</label>
                                                         <select name="productos[]" class="form-control @error('productos.'.$key) is-invalid @enderror">
                                                             @foreach ($productosDisponibles as $producto)
@@ -72,7 +72,7 @@
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-3">
                                                         <label>Cantidad:</label>
                                                         <input type="number" name="cantidades[]" min="1" 
                                                             class="form-control @error('cantidades.'.$key) is-invalid @enderror" 
@@ -81,15 +81,24 @@
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-2 d-flex">
-                                                        <button type="button" class="btn btn-danger w-100" style="margin-top: auto; margin-bottom: 0;" onclick="eliminarFila(this)">Eliminar</button>
+                                                    <div class="col-md-3">
+                                                        <label>Valor Unitario:</label>
+                                                        <input type="number" name="valores_unitarios[]" min="0" step="0.01"
+                                                            class="form-control @error('valores_unitarios.'.$key) is-invalid @enderror" 
+                                                            placeholder="Valor Unitario" value="{{ old('valores_unitarios.'.$key, $productoCantidad->Valor_Unitario) }}">
+                                                        @error('valores_unitarios.'.$key)
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-3 d-flex align-items-end">
+                                                        <button type="button" class="btn btn-danger w-100" onclick="eliminarFila(this)">Eliminar</button>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         @else
                                             @foreach ($productosCantidades as $productoCantidad)
                                                 <div class="row mb-3">
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-3">
                                                         <label>Producto:</label>
                                                         <select name="productos[]" class="form-control">
                                                             @foreach ($productosDisponibles as $producto)
@@ -99,12 +108,16 @@
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-3">
                                                         <label>Cantidad:</label>
                                                         <input type="number" name="cantidades[]" min="1" value="{{ $productoCantidad->Cantidad_Productos }}" class="form-control" placeholder="Cantidad">
                                                     </div>
-                                                    <div class="col-md-2 d-flex">
-                                                        <button type="button" class="btn btn-danger w-100" style="margin-top: auto; margin-bottom: 0;" onclick="eliminarFila(this)">Eliminar</button>
+                                                    <div class="col-md-3">
+                                                        <label>Valor Unitario:</label>
+                                                        <input type="number" name="valores_unitarios[]" min="0" step="0.01" value="{{ $productoCantidad->Valor_Unitario }}" class="form-control" placeholder="Valor Unitario">
+                                                    </div>
+                                                    <div class="col-md-3 d-flex align-items-end">
+                                                        <button type="button" class="btn btn-danger w-100" onclick="eliminarFila(this)">Eliminar</button>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -133,7 +146,7 @@
         function agregarFila() {
             const fila = `
                 <div class="row mb-3">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label>Producto:</label>
                         <select name="productos[]" class="form-control">
                             @foreach ($productosDisponibles as $producto)
@@ -143,12 +156,16 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <label>Cantidad:</label>
                         <input type="number" name="cantidades[]" min="1" value="1" class="form-control" placeholder="Cantidad">
                     </div>
-                    <div class="col-md-2 d-flex">
-                        <button type="button" class="btn btn-danger w-100" style="margin-top: auto; margin-bottom: 0;" onclick="eliminarFila(this)">Eliminar</button>
+                    <div class="col-md-3">
+                        <label>Valor Unitario:</label>
+                        <input type="number" name="valores_unitarios[]" min="0" step="0.01" value="0" class="form-control" placeholder="Valor Unitario">
+                    </div>
+                    <div class="col-md-3 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger w-100" onclick="eliminarFila(this)">Eliminar</button>
                     </div>
                 </div>
             `;

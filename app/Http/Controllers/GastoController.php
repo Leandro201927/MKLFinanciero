@@ -44,6 +44,7 @@ class GastoController extends Controller
             'Descripcion' => 'required|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
+            'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
             'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
@@ -51,6 +52,9 @@ class GastoController extends Controller
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
             'productos.*.required' => 'Debes seleccionar un producto.',
             'productos.*.exists' => 'El producto seleccionado no existe.',
+            'valores_unitarios.*.required' => 'El valor unitario es obligatorio.',
+            'valores_unitarios.*.numeric' => 'El valor unitario debe ser un número.',
+            'valores_unitarios.*.min' => 'El valor unitario no puede ser negativo.',
         ]);
         
         if ($validator->fails()) {
@@ -60,27 +64,39 @@ class GastoController extends Controller
         }
         
         $gasto = new Gasto;
-
+    
+        // Actualiza los campos del gasto con los datos del $request
         $gasto->UsuarioID = Auth::id();
-        $gasto->Fecha_Gasto = now();
         $gasto->Descripcion = $request->Descripcion;
-
-        $productos = $request->input('productos');
-        $cantidades = $request->input('cantidades');
+        $gasto->Fecha_Gasto = now();
         $gasto->save();
 
-        // Guarda los datos en la tabla de relación ProductoGasto
-        foreach ($productos as $key => $productoID) {
-            // Crea una nueva entrada en ProductoGasto
-            ProductoGasto::create([
-                'ImpuestoID' => 1,
-                'Valor_Total' => 0,
-                'MovimientoID' => $gasto->ID, // Reemplaza con el ID del gasto actual
-                'ProductoID' => $productoID,
-                'Cantidad_Productos' => $cantidades[$key]
-            ]);
-        }
+        // Obtén los productos, cantidades y valores unitarios
+        $productos = $request->input('productos');
+        $cantidades = $request->input('cantidades');
+        $valores_unitarios = $request->input('valores_unitarios');
 
+        // Guarda los datos en la tabla de relación ProductoGasto y actualiza el stock
+        foreach ($productos as $key => $productoID) {
+            $producto = Producto::find($productoID);
+            $cantidad = $cantidades[$key];
+            $valor_unitario = $valores_unitarios[$key];
+            $valor_total = $cantidad * $valor_unitario;
+
+            // Crear la entrada en ProductoGasto
+            ProductoGasto::create([
+                'Valor_Unitario' => $valor_unitario,
+                'Valor_Total' => $valor_total,
+                'MovimientoID' => $gasto->ID,
+                'ProductoID' => $productoID,
+                'Cantidad_Productos' => $cantidad
+            ]);
+
+            // Actualizar el stock del producto
+            $producto->Cantidad += $cantidad;
+            $producto->save();
+        }
+        
         return redirect()->route('gasto')->with('success', 'Gasto registrado correctamente.');
     }
 
@@ -130,6 +146,7 @@ class GastoController extends Controller
             'Descripcion' => 'required|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
+            'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
             'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
@@ -137,6 +154,9 @@ class GastoController extends Controller
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
             'productos.*.required' => 'Debes seleccionar un producto.',
             'productos.*.exists' => 'El producto seleccionado no existe.',
+            'valores_unitarios.*.required' => 'El valor unitario es obligatorio.',
+            'valores_unitarios.*.numeric' => 'El valor unitario debe ser un número.',
+            'valores_unitarios.*.min' => 'El valor unitario no puede ser negativo.',
         ]);
         
         if ($validator->fails()) {
@@ -145,8 +165,17 @@ class GastoController extends Controller
                 ->withInput();
         }
 
-        $gasto->Descripcion = $request->Descripcion;
+        // Obtener los productos y cantidades actuales
+        $productosActuales = ProductoGasto::where('MovimientoID', $id)->get();
+        
+        // Restaurar las cantidades originales
+        foreach ($productosActuales as $productoActual) {
+            $producto = Producto::find($productoActual->ProductoID);
+            $producto->Cantidad -= $productoActual->Cantidad_Productos;
+            $producto->save();
+        }
 
+        $gasto->Descripcion = $request->Descripcion;
         $gasto->save(); 
 
         $productos = $request->input('productos');
@@ -155,13 +184,22 @@ class GastoController extends Controller
         ProductoGasto::where('MovimientoID', $id)->delete();
 
         foreach ($productos as $key => $productoID) {
+            $producto = Producto::find($productoID);
+            $cantidad = $cantidades[$key];
+            $valor_unitario = $request->valores_unitarios[$key];
+            $valor_total = $valor_unitario * $cantidad;
+
             ProductoGasto::create([
-                'ImpuestoID' => 1,
-                'Valor_Total' => 0,
                 'MovimientoID' => $id,
                 'ProductoID' => $productoID,
-                'Cantidad_Productos' => $cantidades[$key]
+                'Cantidad_Productos' => $cantidad,
+                'Valor_Unitario' => $valor_unitario,
+                'Valor_Total' => $valor_total
             ]);
+
+            // Actualizar el stock del producto
+            $producto->Cantidad += $cantidad;
+            $producto->save();
         }
 
         return redirect()->route('gasto')->with('success', 'Gasto actualizado correctamente.');

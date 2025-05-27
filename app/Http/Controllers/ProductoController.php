@@ -63,13 +63,13 @@ class ProductoController extends Controller
                     return $query->where('UsuarioID', Auth::id());
                 }),
             ],
-            'Precio' => 'required|numeric|min:0',
+            'Cantidad' => 'required|integer|min:0',
         ], [
             'Nombre.required' => 'El nombre del producto es obligatorio.',
             'Nombre.unique' => 'Ya tienes un producto con este nombre.',
-            'Precio.required' => 'El precio es obligatorio.',
-            'Precio.numeric' => 'El precio debe ser un número.',
-            'Precio.min' => 'El precio no puede ser negativo.',
+            'Cantidad.required' => 'La cantidad es obligatoria.',
+            'Cantidad.integer' => 'La cantidad debe ser un número entero.',
+            'Cantidad.min' => 'La cantidad no puede ser negativa.',
         ]);
         
         if ($validator->fails()) {
@@ -82,8 +82,8 @@ class ProductoController extends Controller
     
         // Actualiza los campos del producto con los datos del $request
         $producto->UsuarioID = Auth::id();
-        $producto->Precio = $request->Precio;
         $producto->Nombre = $request->Nombre;
+        $producto->Cantidad = $request->Cantidad;
     
         $producto->save();
     
@@ -148,13 +148,9 @@ class ProductoController extends Controller
                                 ->where('ID', '!=', $id);
                 }),
             ],
-            'Precio' => 'required|numeric|min:0',
         ], [
             'Nombre.required' => 'El nombre del producto es obligatorio.',
             'Nombre.unique' => 'Ya tienes otro producto con este nombre.',
-            'Precio.required' => 'El precio es obligatorio.',
-            'Precio.numeric' => 'El precio debe ser un número.',
-            'Precio.min' => 'El precio no puede ser negativo.',
         ]);
         
         if ($validator->fails()) {
@@ -165,7 +161,6 @@ class ProductoController extends Controller
     
         // Actualiza los campos del producto con los datos del $request
         $producto->Nombre = $request->Nombre;
-        $producto->Precio = $request->Precio;
     
         $producto->save();
     

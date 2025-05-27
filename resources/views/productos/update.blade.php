@@ -46,21 +46,9 @@
                                     <label for="Nombre">Nombre:</label>
                                     <div class="mb-3">
                                         <input type="text" id="Nombre" name="Nombre" class="form-control @error('Nombre') is-invalid @enderror" 
-                                            placeholder="Ingresa el nombre del producto" 
-                                            value="{{ old('Nombre', $producto->Nombre) }}" 
+                                            placeholder="Ingresa el nombre del producto" value="{{ old('Nombre', $producto->Nombre) }}" 
                                             aria-label="Nombre" aria-describedby="nombre-addon">
                                         @error('Nombre')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <label for="Precio">Precio:</label>
-                                    <div class="mb-3">
-                                        <input type="text" id="Precio" name="Precio" class="form-control @error('Precio') is-invalid @enderror" 
-                                            placeholder="Ingresa el precio del producto" 
-                                            value="{{ old('Precio', $producto->Precio) }}" 
-                                            aria-label="Precio" aria-describedby="precio-addon">
-                                        @error('Precio')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>

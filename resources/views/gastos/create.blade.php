@@ -57,7 +57,7 @@
                                         @if (old('productos'))
                                             @foreach (old('productos') as $key => $productoID)
                                                 <div class="row my-2">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <select name="productos[]" class="form-control @error('productos.'.$key) is-invalid @enderror">
                                                             @foreach ($productos as $producto)
                                                                 <option value="{{ $producto->ID }}" {{ $productoID == $producto->ID ? 'selected' : '' }}>{{ $producto->Nombre }}</option>
@@ -67,10 +67,17 @@
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <input type="number" name="cantidades[]" min="1" class="form-control @error('cantidades.'.$key) is-invalid @enderror" 
                                                             placeholder="Cantidad" value="{{ old('cantidades.'.$key) }}">
                                                         @error('cantidades.'.$key)
+                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="number" step="0.01" name="valores_unitarios[]" min="0" class="form-control @error('valores_unitarios.'.$key) is-invalid @enderror" 
+                                                            placeholder="Valor Unitario" value="{{ old('valores_unitarios.'.$key) }}">
+                                                        @error('valores_unitarios.'.$key)
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
@@ -100,18 +107,18 @@
         function agregarFila() {
             const fila = `
                 <div class="row my-2">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <select name="productos[]" class="form-control">
                             @foreach ($productos as $producto)
                                 <option value="{{ $producto->ID }}">{{ $producto->Nombre }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input type="number" name="cantidades[]" min="1" class="form-control" placeholder="Cantidad">
                     </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">Eliminar</button>
+                    <div class="col-md-4">
+                        <input type="number" step="0.01" name="valores_unitarios[]" min="0" class="form-control" placeholder="Valor Unitario">
                     </div>
                 </div>
             `;

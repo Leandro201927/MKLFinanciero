@@ -60,6 +60,7 @@ class VentaController extends Controller
             'Descripcion' => 'required|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
+            'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
             'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
@@ -67,12 +68,29 @@ class VentaController extends Controller
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
             'productos.*.required' => 'Debes seleccionar un producto.',
             'productos.*.exists' => 'El producto seleccionado no existe.',
+            'valores_unitarios.*.required' => 'El valor unitario es obligatorio.',
+            'valores_unitarios.*.numeric' => 'El valor unitario debe ser un número.',
+            'valores_unitarios.*.min' => 'El valor unitario no puede ser negativo.',
         ]);
         
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
+        }
+
+        // Verificar stock disponible para cada producto
+        $productos = $request->input('productos');
+        $cantidades = $request->input('cantidades');
+        $valores_unitarios = $request->input('valores_unitarios');
+
+        foreach ($productos as $key => $productoID) {
+            $producto = Producto::find($productoID);
+            if ($producto->Cantidad < $cantidades[$key]) {
+                return redirect()->back()
+                    ->withErrors(['stock' => "No hay suficiente stock disponible para el producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}"])
+                    ->withInput();
+            }
         }
         
         $venta = new Venta;
@@ -81,24 +99,29 @@ class VentaController extends Controller
         $venta->UsuarioID = Auth::id();
         $venta->Descripcion = $request->Descripcion;
         $venta->Fecha_Venta = now();
-        // Obtén los productos y cantidades
-        $productos = $request->input('productos');
-        $cantidades = $request->input('cantidades');
         $venta->save();
 
-        // Guarda los datos en la tabla de relación ProductoVenta
+        // Guarda los datos en la tabla de relación ProductoVenta y actualiza el stock
         foreach ($productos as $key => $productoID) {
-            // Crea una nueva entrada en ProductoVenta
+            $producto = Producto::find($productoID);
+            $cantidad = $cantidades[$key];
+            $valor_unitario = $valores_unitarios[$key];
+            $valor_total = $cantidad * $valor_unitario;
+
+            // Crear la entrada en ProductoVenta
             ProductoVenta::create([
-                'ImpuestoID' => 1,
-                'Valor_Total' => 0,
-                'VentaID' => $venta->ID, // Reemplaza con el ID de la venta actual
+                'VentaID' => $venta->ID,
                 'ProductoID' => $productoID,
-                'Cantidad_Productos' => $cantidades[$key]
+                'Cantidad_Productos' => $cantidad,
+                'Valor_Unitario' => $valor_unitario,
+                'Valor_Total' => $valor_total
             ]);
+
+            // Actualizar el stock del producto
+            $producto->Cantidad -= $cantidad;
+            $producto->save();
         }
         
-    
         return redirect()->route('venta')->with('success', 'Venta registrada correctamente.');
     }
 
@@ -158,6 +181,7 @@ class VentaController extends Controller
             'Descripcion' => 'required|string|max:255',
             'cantidades.*' => 'required|integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
+            'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
             'Descripcion.required' => 'La descripción es obligatoria.',
             'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
@@ -165,6 +189,9 @@ class VentaController extends Controller
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
             'productos.*.required' => 'Debes seleccionar un producto.',
             'productos.*.exists' => 'El producto seleccionado no existe.',
+            'valores_unitarios.*.required' => 'El valor unitario es obligatorio.',
+            'valores_unitarios.*.numeric' => 'El valor unitario debe ser un número.',
+            'valores_unitarios.*.min' => 'El valor unitario no puede ser negativo.',
         ]);
         
         if ($validator->fails()) {
@@ -172,11 +199,19 @@ class VentaController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
+        // Obtener los productos y cantidades actuales
+        $productosActuales = ProductoVenta::where('VentaID', $id)->get();
+        
+        // Restaurar las cantidades originales
+        foreach ($productosActuales as $productoActual) {
+            $producto = Producto::find($productoActual->ProductoID);
+            $producto->Cantidad += $productoActual->Cantidad_Productos;
+            $producto->save();
+        }
     
         // Actualiza los campos de la venta con los datos del $request
         $venta->Descripcion = $request->Descripcion;
-    
-        // Guarda los cambios en la venta
         $venta->save();
     
         // Actualiza los productos y cantidades relacionados
@@ -188,13 +223,35 @@ class VentaController extends Controller
     
         // Crea nuevas entradas en ProductoVenta con los datos actualizados
         foreach ($productos as $key => $productoID) {
+            $producto = Producto::find($productoID);
+            $cantidad = $cantidades[$key];
+            $valor_unitario = $request->valores_unitarios[$key];
+            $valor_total = $valor_unitario * $cantidad;
+
+            // Verificar stock disponible
+            if ($producto->Cantidad < $cantidad) {
+                // Restaurar las cantidades originales antes de redirigir
+                foreach ($productosActuales as $productoActual) {
+                    $producto = Producto::find($productoActual->ProductoID);
+                    $producto->Cantidad -= $productoActual->Cantidad_Productos;
+                    $producto->save();
+                }
+                return redirect()->back()
+                    ->withErrors(['stock' => "No hay suficiente stock disponible para el producto {$producto->Nombre}. Stock actual: {$producto->Cantidad}"])
+                    ->withInput();
+            }
+
             ProductoVenta::create([
-                'ImpuestoID' => 1,
-                'Valor_Total' => 0,
                 'VentaID' => $id,
                 'ProductoID' => $productoID,
-                'Cantidad_Productos' => $cantidades[$key],
+                'Cantidad_Productos' => $cantidad,
+                'Valor_Unitario' => $valor_unitario,
+                'Valor_Total' => $valor_total
             ]);
+
+            // Actualizar el stock del producto
+            $producto->Cantidad -= $cantidad;
+            $producto->save();
         }
     
         return redirect()->route('venta')->with('success', 'Venta actualizada correctamente.');
