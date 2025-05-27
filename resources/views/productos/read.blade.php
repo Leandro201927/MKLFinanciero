@@ -33,11 +33,15 @@
                             </td>
                             <td class="align-middle">
                                 <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
-                                <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>
-                                </form>
+                                @if($producto->puedeEliminar)
+                                    <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar" onclick="return confirm('¿Estás seguro de eliminar este producto?')">Borrar</button>
+                                    </form>
+                                @else
+                                    <span class="text-secondary font-weight-bold text-xs" style="opacity: 0.5; cursor: not-allowed;" data-bs-toggle="tooltip" data-bs-title="Este producto no puede ser eliminado porque tiene ventas o gastos asociados">Borrar</span>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -172,11 +176,15 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
-                                                    <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar">Borrar</button>
-                                                    </form>
+                                                    @if($producto->puedeEliminar)
+                                                        <form action="{{ route('producto.destroy', $producto->ID) }}" method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" style="border-style:none; background-color: transparent;" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Borrar" onclick="return confirm('¿Estás seguro de eliminar este producto?')">Borrar</button>
+                                                        </form>
+                                                    @else
+                                                        <span class="text-secondary font-weight-bold text-xs" style="opacity: 0.5; cursor: not-allowed;" data-bs-toggle="tooltip" data-bs-title="Este producto no puede ser eliminado porque tiene ventas o gastos asociados">Borrar</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

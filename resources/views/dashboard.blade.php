@@ -178,11 +178,13 @@
                                     <thead class="bg-gray-100">
                                         <tr>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7">
-                                                ID</th>
+                                                Código</th>
                                             <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">
-                                                Descripcion</th>
-                                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Fecha
-                                            </th>
+                                                Descripción</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">
+                                                Tipo</th>
+                                            <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">
+                                                Fecha</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -191,7 +193,7 @@
                                                 <td>
                                                     <div class="d-flex px-2">
                                                         <div class="my-auto">
-                                                            <h6 class="mb-0 text-sm">{{ $transaction->ID }}</h6>
+                                                            <h6 class="mb-0 text-sm">{{ $transaction->Codigo }}</h6>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -199,7 +201,13 @@
                                                     <p class="text-sm font-weight-normal mb-0">{{ $transaction->Descripcion }}</p>
                                                 </td>
                                                 <td>
-                                                    <span class="text-sm font-weight-normal">{{ $transaction->Fecha_Venta ?? $transaction->Fecha_Gasto }}</span>
+                                                    <!-- Fuente de color negro -->
+                                                    <span class="text-xs font-weight-bold {{ $transaction->Tipo === 'Venta' ? 'text-success' : 'text-danger' }}">
+                                                        {{ $transaction->Tipo }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="text-sm font-weight-normal">{{ $transaction->Fecha }}</span>
                                                 </td>
                                             </tr>
                                         @endforeach

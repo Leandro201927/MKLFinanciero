@@ -8,6 +8,8 @@ use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Models\ProductoVenta;
+use App\Models\ProductoGasto;
 
 class ProductoController extends Controller
 {
@@ -23,7 +25,15 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::where('UsuarioID', Auth::id())->get(); // -> SELECT * FROM 'Producto';
+        $productos = Producto::where('UsuarioID', Auth::id())->get();
+        
+        // Para cada producto, verificar si tiene ventas o gastos asociados
+        foreach ($productos as $producto) {
+            $tieneVentas = ProductoVenta::where('ProductoID', $producto->ID)->exists();
+            $tieneGastos = ProductoGasto::where('ProductoID', $producto->ID)->exists();
+            $producto->puedeEliminar = !($tieneVentas || $tieneGastos);
+        }
+        
         return view('productos.read', compact('productos'));
     }
     
@@ -173,19 +183,26 @@ class ProductoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
         // Verificar que el producto pertenece al usuario actual
         $producto = Producto::where('ID', $id)
-                            ->where('UsuarioID', Auth::id())
-                            ->first();
-        
+                      ->where('UsuarioID', Auth::id())
+                      ->first();
+                      
         if (!$producto) {
             return redirect()->route('producto')->with('error', 'Producto no encontrado.');
         }
+
+        // Verificar si el producto tiene ventas o gastos asociados
+        $tieneVentas = ProductoVenta::where('ProductoID', $id)->exists();
+        $tieneGastos = ProductoGasto::where('ProductoID', $id)->exists();
+
+        if ($tieneVentas || $tieneGastos) {
+            return redirect()->route('producto')->with('error', 'No se puede eliminar el producto porque tiene ventas o gastos asociados.');
+        }
         
         $producto->delete();
-
         return redirect()->route('producto')->with('success', 'Producto eliminado correctamente.');
     }
 }
