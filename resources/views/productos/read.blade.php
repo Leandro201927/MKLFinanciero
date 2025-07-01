@@ -5,10 +5,11 @@
             <thead class="bg-gray-100">
                 <tr>
                     <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
-                    <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
-                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Nombre</th>
+                    <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Nombre</th>
+                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Tipo</th>
                     <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Cantidad</th>
-                    <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
+                    <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Clasificación</th>
+                    <th class="text-secondary text-xs font-weight-semibold opacity-7">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,13 +24,34 @@
                                 </div>
                             </td>
                             <td>
-                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $producto->UsuarioID }}</p>
+                                <p class="text-sm text-dark font-weight-semibold mb-0">{{ $producto->Nombre }}</p>
                             </td>
                             <td class="align-middle text-center text-sm">
-                                <span class="text-secondary text-sm font-weight-normal">{{ $producto->Nombre }}</span>
+                                @php
+                                    $tipoColors = [
+                                        'producto' => 'bg-success',
+                                        'gasto' => 'bg-warning', 
+                                        'servicio' => 'bg-info'
+                                    ];
+                                    $tipoColor = $tipoColors[$producto->Tipo] ?? 'bg-secondary';
+                                @endphp
+                                <span class="badge {{ $tipoColor }} text-white">{{ ucfirst($producto->Tipo ?? 'N/A') }}</span>
                             </td>
                             <td class="align-middle text-center">
-                                <span class="text-secondary text-sm font-weight-normal">{{ $producto->Cantidad }}</span>
+                                <span class="text-secondary text-sm font-weight-normal">
+                                    {{ $producto->Tipo === 'producto' ? $producto->Cantidad : 'N/A' }}
+                                </span>
+                            </td>
+                            <td class="align-middle text-center">
+                                @if($producto->Clasificacion && is_array($producto->Clasificacion))
+                                    <div class="d-flex flex-wrap justify-content-center">
+                                        @foreach($producto->Clasificacion as $key => $value)
+                                            <small class="badge bg-light text-dark me-1 mb-1">{{ $key }}: {{ $value }}</small>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
                             </td>
                             <td class="align-middle">
                                 <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>
@@ -115,45 +137,58 @@
                                 </div>
                             </div>
                             <div class="pb-3 d-sm-flex align-items-center">
-                              <!--
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable1"
-                                        autocomplete="off" checked>
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable1">All</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable2"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable2">Monitored</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable3"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable3">Unmonitored</label>
-                                </div>
-                              -->
-                                <!-- <div class="input-group w-sm-25 ms-auto">
-                                    <span class="input-group-text text-body">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="Buscar">
-                                </div> -->
+                                <form method="GET" action="{{ route('producto') }}" class="w-100">
+                                    <div class="row g-2">
+                                        <div class="col-md-3">
+                                            <select name="tipo" class="form-control form-control-sm" onchange="this.form.submit()">
+                                                @foreach($tipos as $value => $label)
+                                                    <option value="{{ $value }}" {{ request('tipo') == $value ? 'selected' : '' }}>
+                                                        {{ $label }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                                <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre" value="{{ request('buscar') }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-sm btn-dark">Filtrar</button>
+                                            <a href="{{ route('producto') }}" class="btn btn-sm btn-outline-secondary">Limpiar</a>
+                                        </div>
+                                        <div class="col-md-2 text-end">
+                                            <a href="{{ route('producto.exportar') }}" class="btn btn-sm btn-success">
+                                                <i class="fa fa-download"></i> Exportar CSV
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">
                             <div class="table-responsive p-0">
                               <table class="table align-items-center mb-0">
-                                  <thead class="bg-gray-100">
-                                      <tr>
-                                          <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
-                                          <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">UsuarioID</th>
-                                          <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Nombre</th>
-                                          <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Cantidad</th>
-                                          <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
-                                      </tr>
-                                  </thead>
+                                                                        <thead class="bg-gray-100">
+                                          <tr>
+                                              <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
+                                              <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Nombre</th>
+                                              <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Tipo</th>
+                                              <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Cantidad</th>
+                                              <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Clasificación</th>
+                                              <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Descripción</th>
+                                              <th class="text-secondary text-xs font-weight-semibold opacity-7">Acciones</th>
+                                          </tr>
+                                      </thead>
                                   <tbody>
                                     @if($productos)
                                         @foreach ($productos as $producto)
@@ -166,13 +201,43 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <p class="text-sm text-dark font-weight-semibold mb-0">{{ $producto->UsuarioID }}</p>
+                                                    <p class="text-sm text-dark font-weight-semibold mb-0">{{ $producto->Nombre }}</p>
                                                 </td>
                                                 <td class="align-middle text-center text-sm">
-                                                    <span class="text-secondary text-sm font-weight-normal">{{ $producto->Nombre }}</span>
+                                                    @php
+                                                        $tipoColors = [
+                                                            'producto' => 'bg-success',
+                                                            'gasto' => 'bg-warning', 
+                                                            'servicio' => 'bg-info'
+                                                        ];
+                                                        $tipoColor = $tipoColors[$producto->Tipo] ?? 'bg-secondary';
+                                                    @endphp
+                                                    <span class="badge {{ $tipoColor }} text-white">{{ ucfirst($producto->Tipo ?? 'N/A') }}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
-                                                    <span class="text-secondary text-sm font-weight-normal">{{ $producto->Cantidad }}</span>
+                                                    <span class="text-secondary text-sm font-weight-normal">
+                                                        {{ $producto->Tipo === 'producto' ? $producto->Cantidad : 'N/A' }}
+                                                    </span>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    @if($producto->Clasificacion && is_array($producto->Clasificacion))
+                                                        <div class="d-flex flex-wrap justify-content-center">
+                                                            @foreach($producto->Clasificacion as $key => $value)
+                                                                <small class="badge bg-light text-dark me-1 mb-1">{{ $key }}: {{ $value }}</small>
+                                                            @endforeach
+                                                        </div>
+                                                    @else
+                                                        <span class="text-muted">-</span>
+                                                    @endif
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    @if($producto->Descripcion && ($producto->Tipo === 'gasto' || $producto->Tipo === 'servicio'))
+                                                        <span class="text-sm text-secondary" style="max-width: 200px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ $producto->Descripcion }}">
+                                                            {{ $producto->Descripcion }}
+                                                        </span>
+                                                    @else
+                                                        <span class="text-muted">-</span>
+                                                    @endif
                                                 </td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('producto.edit', $producto->ID) }}" class="text-secondary font-weight-bold text-xs" data-bs-toggle="tooltip" data-bs-title="Actualizar">Actualizar</a>

@@ -146,7 +146,7 @@
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Total:</h6>
-                                <h6 class="mb-0" id="total-gasto">$0.00</h6>
+                                <h6 class="mb-0" id="total-gasto">$0,00</h6>
                             </div>
                         </div>
                     </div>
@@ -156,6 +156,13 @@
     </main>
 
     <script>
+        function formatearMoneda(valor) {
+            return parseFloat(valor).toLocaleString('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+        
         function eliminarFila(button) {
             const fila = button.closest('.row');
             fila.remove();
@@ -199,25 +206,29 @@
             let html = '';
 
             filas.forEach((fila, index) => {
-                const producto = fila.querySelector('.producto-select option:checked').text;
+                const selectElement = fila.querySelector('.producto-select');
+                const selectedOption = selectElement ? selectElement.querySelector('option:checked') : null;
+                const producto = selectedOption ? selectedOption.text : 'Producto no seleccionado';
                 const cantidad = parseFloat(fila.querySelector('.cantidad-input').value) || 0;
                 const valorUnitario = parseFloat(fila.querySelector('.valor-input').value) || 0;
                 const subtotal = cantidad * valorUnitario;
                 total += subtotal;
 
-                html += `
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h6 class="mb-0 text-sm">${producto}</h6>
-                            <p class="text-xs text-secondary mb-0">${cantidad} x $${valorUnitario.toFixed(2)}</p>
+                if (selectedOption && cantidad > 0 && valorUnitario > 0) {
+                    html += `
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="mb-0 text-sm">${producto}</h6>
+                                <p class="text-xs text-secondary mb-0">${cantidad} x $${formatearMoneda(valorUnitario)}</p>
+                            </div>
+                            <h6 class="mb-0">$${formatearMoneda(subtotal)}</h6>
                         </div>
-                        <h6 class="mb-0">$${subtotal.toFixed(2)}</h6>
-                    </div>
-                `;
+                    `;
+                }
             });
 
             resumenContainer.innerHTML = html;
-            document.getElementById('total-gasto').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('total-gasto').textContent = `$${formatearMoneda(total)}`;
         }
 
         // Agregar event listeners para actualizar el resumen

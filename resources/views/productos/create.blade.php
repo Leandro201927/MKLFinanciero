@@ -46,14 +46,63 @@
                                         @enderror
                                     </div>
 
-                                    <label for="Cantidad">Cantidad Inicial:</label>
+                                    <label for="Tipo">Tipo:</label>
                                     <div class="mb-3">
-                                        <input type="number" id="Cantidad" name="Cantidad" min="0" class="form-control @error('Cantidad') is-invalid @enderror" 
-                                            placeholder="Ingresa la cantidad inicial del producto" value="{{ old('Cantidad') }}" 
-                                            aria-label="Cantidad" aria-describedby="cantidad-addon">
-                                        @error('Cantidad')
+                                        <select id="Tipo" name="Tipo" class="form-control @error('Tipo') is-invalid @enderror" 
+                                            aria-label="Tipo" aria-describedby="tipo-addon" onchange="toggleCantidadField()">
+                                            <option value="">Selecciona el tipo</option>
+                                            <option value="producto" {{ old('Tipo') == 'producto' ? 'selected' : '' }}>Producto</option>
+                                            <option value="gasto" {{ old('Tipo') == 'gasto' ? 'selected' : '' }}>Gasto</option>
+                                            <option value="servicio" {{ old('Tipo') == 'servicio' ? 'selected' : '' }}>Servicio</option>
+                                        </select>
+                                        @error('Tipo')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
+                                    </div>
+
+                                    <div id="cantidad-field" style="display: none;">
+                                        <label for="Cantidad">Cantidad Inicial:</label>
+                                        <div class="mb-3">
+                                            <input type="number" id="Cantidad" name="Cantidad" min="0" class="form-control @error('Cantidad') is-invalid @enderror" 
+                                                placeholder="Ingresa la cantidad inicial del producto" value="{{ old('Cantidad') }}" 
+                                                aria-label="Cantidad" aria-describedby="cantidad-addon">
+                                            @error('Cantidad')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div id="clasificacion-section" style="display: none;">
+                                        <label>Clasificación (opcional):</label>
+                                        <div class="mb-3" id="clasificacion-container">
+                                            <div class="row mb-2">
+                                                <div class="col-md-5">
+                                                    <input type="text" name="clasificacion_keys[]" class="form-control" placeholder="Categoría (ej: Marca, Color, Tamaño)">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input type="text" name="clasificacion_values[]" class="form-control" placeholder="Valor (ej: Nike, Rojo, Grande)">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="button" class="btn btn-outline-secondary" onclick="removeClasificacion(this)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-primary btn-sm mb-3" onclick="addClasificacion()">
+                                            + Agregar Clasificación
+                                        </button>
+                                    </div>
+
+                                    <div id="descripcion-section" style="display: none;">
+                                        <label for="Descripcion">Descripción:</label>
+                                        <div class="mb-3">
+                                            <textarea id="Descripcion" name="Descripcion" rows="3" class="form-control @error('Descripcion') is-invalid @enderror" 
+                                                placeholder="Describe el servicio o gasto..." aria-label="Descripcion">{{ old('Descripcion') }}</textarea>
+                                            @error('Descripcion')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
 
                                     <div class="text-center">
@@ -61,6 +110,78 @@
                                     </div>
                                 </form>
                             </div>
+
+                            <script>
+                                function toggleCantidadField() {
+                                    const tipoSelect = document.getElementById('Tipo');
+                                    const cantidadField = document.getElementById('cantidad-field');
+                                    const clasificacionSection = document.getElementById('clasificacion-section');
+                                    const descripcionSection = document.getElementById('descripcion-section');
+                                    
+                                    if (tipoSelect.value === 'producto') {
+                                        cantidadField.style.display = 'block';
+                                        clasificacionSection.style.display = 'block';
+                                        descripcionSection.style.display = 'none';
+                                        document.getElementById('Descripcion').value = '';
+                                    } else if (tipoSelect.value === 'gasto' || tipoSelect.value === 'servicio') {
+                                        cantidadField.style.display = 'none';
+                                        clasificacionSection.style.display = 'none';
+                                        descripcionSection.style.display = 'block';
+                                        document.getElementById('Cantidad').value = '';
+                                        // Limpiar clasificaciones
+                                        clearClasificaciones();
+                                    } else {
+                                        cantidadField.style.display = 'none';
+                                        clasificacionSection.style.display = 'none';
+                                        descripcionSection.style.display = 'none';
+                                        document.getElementById('Cantidad').value = '';
+                                        document.getElementById('Descripcion').value = '';
+                                        clearClasificaciones();
+                                    }
+                                }
+
+                                function clearClasificaciones() {
+                                    const container = document.getElementById('clasificacion-container');
+                                    // Limpiar todos los inputs de clasificación
+                                    const inputs = container.querySelectorAll('input');
+                                    inputs.forEach(input => input.value = '');
+                                    
+                                    // Mantener solo la primera fila
+                                    const rows = container.querySelectorAll('.row');
+                                    for (let i = 1; i < rows.length; i++) {
+                                        rows[i].remove();
+                                    }
+                                }
+
+                                function addClasificacion() {
+                                    const container = document.getElementById('clasificacion-container');
+                                    const newRow = document.createElement('div');
+                                    newRow.className = 'row mb-2';
+                                    newRow.innerHTML = `
+                                        <div class="col-md-5">
+                                            <input type="text" name="clasificacion_keys[]" class="form-control" placeholder="Categoría (ej: Marca, Color, Tamaño)">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <input type="text" name="clasificacion_values[]" class="form-control" placeholder="Valor (ej: Nike, Rojo, Grande)">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="removeClasificacion(this)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    `;
+                                    container.appendChild(newRow);
+                                }
+
+                                function removeClasificacion(button) {
+                                    button.closest('.row').remove();
+                                }
+
+                                // Mostrar cantidad inicial y clasificaciones si ya está seleccionado 'producto'
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    toggleCantidadField();
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>

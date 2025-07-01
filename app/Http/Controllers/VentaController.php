@@ -16,14 +16,82 @@ class VentaController extends Controller
         $this->middleware('auth');
     }
 
+    public function exportarExcel(Request $request)
+    {
+        $ventas = Venta::where('UsuarioID', Auth::id())
+                        ->with('productos')
+                        ->orderBy('Fecha_Venta', 'desc')
+                        ->get();
+        
+        $data = [];
+        $data[] = ['Código', 'Descripción', 'Fecha', 'Productos', 'Total']; // Headers
+        
+        foreach ($ventas as $venta) {
+            $productos = $venta->productos->pluck('Nombre')->implode(', ');
+            $total = $venta->productos->sum('pivot.Valor_Total');
+            
+            $data[] = [
+                $venta->Codigo,
+                $venta->Descripcion,
+                $venta->Fecha_Venta,
+                $productos,
+                '$' . number_format($total, 2, ',', '.')
+            ];
+        }
+        
+        return $this->generateCSV($data, 'ventas_' . date('Y-m-d_H-i-s') . '.csv');
+    }
+
+    private function generateCSV($data, $filename)
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function() use ($data) {
+            $file = fopen('php://output', 'w');
+            
+            foreach ($data as $row) {
+                fputcsv($file, $row);
+            }
+            
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ventas = Venta::where('UsuarioID', Auth::id())->orderBy('Fecha_Venta', 'desc')->get(); // -> SELECT * FROM 'Producto';
+        $query = Venta::where('UsuarioID', Auth::id());
+        
+        // Filtro por fecha
+        if ($request->filled('fecha_desde')) {
+            $query->where('Fecha_Venta', '>=', $request->fecha_desde);
+        }
+        
+        if ($request->filled('fecha_hasta')) {
+            $query->where('Fecha_Venta', '<=', $request->fecha_hasta);
+        }
+        
+        // Filtro por búsqueda en descripción o código
+        if ($request->filled('buscar')) {
+            $query->where(function($q) use ($request) {
+                $q->where('Descripcion', 'like', '%' . $request->buscar . '%')
+                  ->orWhere('Codigo', 'like', '%' . $request->buscar . '%');
+            });
+        }
+        
+        $ventas = $query->with('productos')->orderBy('Fecha_Venta', 'desc')->get(); // -> SELECT * FROM 'Producto';
         return view('ventas.read', compact('ventas'));
     }
 
@@ -43,7 +111,10 @@ class VentaController extends Controller
      */
     public function create()
     {
-        $productos = Producto::where('UsuarioID', Auth::id())->get();
+        // Solo productos de tipo 'producto' para ventas
+        $productos = Producto::where('UsuarioID', Auth::id())
+                            ->where('Tipo', 'producto')
+                            ->get();
         return view('ventas.create', compact('productos'));
     }
 
@@ -173,7 +244,9 @@ class VentaController extends Controller
         }
         
         $productosCantidades = $venta->productos; // Asume que tienes una relación 'productos' en el modelo Venta
-        $productosDisponibles = Producto::where('UsuarioID', Auth::id())->get();
+        $productosDisponibles = Producto::where('UsuarioID', Auth::id())
+                                       ->where('Tipo', 'producto')
+                                       ->get();
         return view('ventas.update', compact('venta', 'productosCantidades', 'productosDisponibles'));
     }
 

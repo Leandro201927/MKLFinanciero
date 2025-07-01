@@ -35,6 +35,7 @@ Route::put('/producto/{producto}', [ProductoController::class, 'update'])->name(
 Route::delete('/producto/{producto}', [ProductoController::class, 'destroy'])->name('producto.destroy')->middleware('auth');
 Route::get('/producto/create', [ProductoController::class, 'create'])->name('producto.create')->middleware('auth');
 Route::post('/producto', [ProductoController::class, 'store'])->name('producto.store')->middleware('auth');
+Route::get('/producto/exportar', [ProductoController::class, 'exportarExcel'])->name('producto.exportar')->middleware('auth');
 // Route::get('/imprimirProductos', [ProductoController::class, 'imprimirProducto'])->name('producto.imprimirProductos');
 
 Route::get('/venta', [VentaController::class, 'index'])->name('venta')->middleware('auth');
@@ -43,6 +44,7 @@ Route::put('/venta/{venta}', [VentaController::class, 'update'])->name('venta.up
 Route::delete('/venta/{venta}', [VentaController::class, 'destroy'])->name('venta.destroy')->middleware('auth');
 Route::get('/venta/create', [VentaController::class, 'create'])->name('venta.create')->middleware('auth');
 Route::post('/venta', [VentaController::class, 'store'])->name('venta.store')->middleware('auth');
+Route::get('/venta/exportar', [VentaController::class, 'exportarExcel'])->name('venta.exportar')->middleware('auth');
 // Route::get('/imprimirVenta', [VentaController::class, 'imprimirVenta'])->name('venta.imprimirVentas');
 
 Route::get('/gasto', [GastoController::class, 'index'])->name('gasto')->middleware('auth');
@@ -51,6 +53,8 @@ Route::put('/gasto/{gasto}', [GastoController::class, 'update'])->name('gasto.up
 Route::delete('/gasto/{gasto}', [GastoController::class, 'destroy'])->name('gasto.destroy')->middleware('auth');
 Route::get('/gasto/create', [GastoController::class, 'create'])->name('gasto.create')->middleware('auth');
 Route::post('/gasto', [GastoController::class, 'store'])->name('gasto.store')->middleware('auth');
+Route::get('/gasto/exportar', [GastoController::class, 'exportarExcel'])->name('gasto.exportar')->middleware('auth');
+Route::get('/gasto/productos-por-tipo/{tipo}', [GastoController::class, 'getProductosPorTipo'])->name('gasto.productos-por-tipo')->middleware('auth');
 // Route::get('/imprimirGasto', [GastoController::class, 'imprimirGasto'])->name('gasto.imprimirGastos');
 
 Route::get('/signin', function () {

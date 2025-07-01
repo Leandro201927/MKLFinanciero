@@ -16,12 +16,80 @@ class GastoController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function exportarExcel(Request $request)
+    {
+        $gastos = Gasto::where('UsuarioID', Auth::id())
+                        ->with('productos')
+                        ->orderBy('Fecha_Gasto', 'desc')
+                        ->get();
+        
+        $data = [];
+        $data[] = ['Código', 'Descripción', 'Fecha', 'Productos', 'Total']; // Headers
+        
+        foreach ($gastos as $gasto) {
+            $productos = $gasto->productos->pluck('Nombre')->implode(', ');
+            $total = $gasto->productos->sum('pivot.Valor_Total');
+            
+            $data[] = [
+                $gasto->Codigo,
+                $gasto->Descripcion,
+                $gasto->Fecha_Gasto,
+                $productos,
+                '$' . number_format($total, 2, ',', '.')
+            ];
+        }
+        
+        return $this->generateCSV($data, 'gastos_' . date('Y-m-d_H-i-s') . '.csv');
+    }
+
+    private function generateCSV($data, $filename)
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function() use ($data) {
+            $file = fopen('php://output', 'w');
+            
+            foreach ($data as $row) {
+                fputcsv($file, $row);
+            }
+            
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $gastos = Gasto::where('UsuarioID', Auth::id())->orderBy('Fecha_Gasto', 'desc')->get();
+        $query = Gasto::where('UsuarioID', Auth::id());
+        
+        // Filtro por fecha
+        if ($request->filled('fecha_desde')) {
+            $query->where('Fecha_Gasto', '>=', $request->fecha_desde);
+        }
+        
+        if ($request->filled('fecha_hasta')) {
+            $query->where('Fecha_Gasto', '<=', $request->fecha_hasta);
+        }
+        
+        // Filtro por búsqueda en descripción o código
+        if ($request->filled('buscar')) {
+            $query->where(function($q) use ($request) {
+                $q->where('Descripcion', 'like', '%' . $request->buscar . '%')
+                  ->orWhere('Codigo', 'like', '%' . $request->buscar . '%');
+            });
+        }
+        
+        $gastos = $query->with('productos')->orderBy('Fecha_Gasto', 'desc')->get();
         return view('gastos.read', compact('gastos'));
     }
 
@@ -30,8 +98,17 @@ class GastoController extends Controller
      */
     public function create()
     {
-        $productos = Producto::where('UsuarioID', Auth::id())->get();
-        return view('gastos.create', compact('productos'));
+        // Ya no necesitamos cargar productos aquí, se cargarán dinámicamente
+        return view('gastos.create');
+    }
+
+    public function getProductosPorTipo($tipo)
+    {
+        $productos = Producto::where('UsuarioID', Auth::id())
+                            ->where('Tipo', $tipo)
+                            ->get();
+        
+        return response()->json($productos);
     }
 
     /**
@@ -42,11 +119,13 @@ class GastoController extends Controller
         // Validar los datos
         $validator = Validator::make($request->all(), [
             'Descripcion' => 'nullable|string|max:255',
-            'cantidades.*' => 'required|integer|min:1',
+            'tipos.*' => 'required|in:producto,gasto,servicio',
+            'cantidades.*' => 'integer|min:1',
             'productos.*' => 'required|exists:producto,ID',
             'valores_unitarios.*' => 'required|numeric|min:0',
         ], [
-            'cantidades.*.required' => 'La cantidad es obligatoria para todos los productos.',
+            'tipos.*.required' => 'Debes seleccionar un tipo.',
+            'tipos.*.in' => 'El tipo seleccionado no es válido.',
             'cantidades.*.integer' => 'La cantidad debe ser un número entero.',
             'cantidades.*.min' => 'La cantidad debe ser mayor a 0.',
             'productos.*.required' => 'Debes seleccionar un producto.',
@@ -91,14 +170,18 @@ class GastoController extends Controller
         $gasto->Fecha_Gasto = now();
         $gasto->save();
 
-        // Obtén los productos, cantidades y valores unitarios
+        // Obtén los tipos, productos, cantidades y valores unitarios
+        $tipos = $request->input('tipos');
         $cantidades = $request->input('cantidades');
         $valores_unitarios = $request->input('valores_unitarios');
 
         // Guarda los datos en la tabla de relación ProductoGasto y actualiza el stock
         foreach ($productos as $key => $productoID) {
             $producto = Producto::find($productoID);
-            $cantidad = $cantidades[$key];
+            $tipo = $tipos[$key];
+            
+            // Para gastos y servicios, la cantidad siempre es 1
+            $cantidad = ($tipo === 'producto') ? $cantidades[$key] : 1;
             $valor_unitario = $valores_unitarios[$key];
             $valor_total = $cantidad * $valor_unitario;
 
@@ -111,9 +194,11 @@ class GastoController extends Controller
                 'Cantidad_Productos' => $cantidad
             ]);
 
-            // Actualizar el stock del producto
-            $producto->Cantidad += $cantidad;
-            $producto->save();
+            // Actualizar el stock del producto (solo para productos tipo 'producto')
+            if ($tipo === 'producto') {
+                $producto->Cantidad += $cantidad;
+                $producto->save();
+            }
         }
         
         return redirect()->route('gasto')->with('success', 'Gasto registrado correctamente.');

@@ -58,28 +58,38 @@
                                             @foreach (old('productos') as $key => $productoID)
                                                 <div class="row my-2">
                                                     <div class="col-md-4">
+                                                        <label class="form-label">Producto:</label>
                                                         <select name="productos[]" class="form-control producto-select @error('productos.'.$key) is-invalid @enderror">
+                                                            <option value="">Seleccionar producto...</option>
                                                             @foreach ($productos as $producto)
-                                                                <option value="{{ $producto->ID }}" {{ $productoID == $producto->ID ? 'selected' : '' }}>{{ $producto->Nombre }}</option>
+                                                                <option value="{{ $producto->ID }}" {{ $productoID == $producto->ID ? 'selected' : '' }}>
+                                                                    {{ $producto->Nombre }} (Stock: {{ $producto->Cantidad }})
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                         @error('productos.'.$key)
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Cantidad:</label>
                                                         <input type="number" name="cantidades[]" min="1" class="form-control cantidad-input @error('cantidades.'.$key) is-invalid @enderror" 
-                                                            placeholder="Cantidad" value="{{ old('cantidades.'.$key) }}">
+                                                            placeholder="Cantidad a vender" value="{{ old('cantidades.'.$key) }}">
                                                         @error('cantidades.'.$key)
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Valor Unitario:</label>
                                                         <input type="number" step="0.01" name="valores_unitarios[]" min="0" class="form-control valor-input @error('valores_unitarios.'.$key) is-invalid @enderror" 
-                                                            placeholder="Valor Unitario" value="{{ old('valores_unitarios.'.$key) }}">
+                                                            placeholder="Precio de venta" value="{{ old('valores_unitarios.'.$key) }}">
                                                         @error('valores_unitarios.'.$key)
                                                             <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label">&nbsp;</label>
+                                                        <button type="button" class="btn btn-danger w-100" onclick="eliminarFila(this)">Eliminar</button>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -107,7 +117,7 @@
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Total:</h6>
-                                <h6 class="mb-0" id="total-venta">$0.00</h6>
+                                <h6 class="mb-0" id="total-venta">$0,00</h6>
                             </div>
                         </div>
                     </div>
@@ -117,6 +127,13 @@
     </main>
 
     <script>
+        function formatearMoneda(valor) {
+            return parseFloat(valor).toLocaleString('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+        
         function eliminarFila(button) {
             const fila = button.closest('.row');
             fila.remove();
@@ -127,17 +144,25 @@
             const fila = `
                 <div class="row my-2">
                     <div class="col-md-4">
+                        <label class="form-label">Producto:</label>
                         <select name="productos[]" class="form-control producto-select">
+                            <option value="">Seleccionar producto...</option>
                             @foreach ($productos as $producto)
-                                <option value="{{ $producto->ID }}">{{ $producto->Nombre }}</option>
+                                <option value="{{ $producto->ID }}">{{ $producto->Nombre }} (Stock: {{ $producto->Cantidad }})</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <input type="number" name="cantidades[]" min="1" class="form-control cantidad-input" placeholder="Cantidad">
+                    <div class="col-md-3">
+                        <label class="form-label">Cantidad:</label>
+                        <input type="number" name="cantidades[]" min="1" class="form-control cantidad-input" placeholder="Cantidad a vender">
                     </div>
-                    <div class="col-md-4">
-                        <input type="number" step="0.01" name="valores_unitarios[]" min="0" class="form-control valor-input" placeholder="Valor Unitario">
+                    <div class="col-md-3">
+                        <label class="form-label">Valor Unitario:</label>
+                        <input type="number" step="0.01" name="valores_unitarios[]" min="0" class="form-control valor-input" placeholder="Precio de venta">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="button" class="btn btn-danger w-100" onclick="eliminarFila(this)">Eliminar</button>
                     </div>
                 </div>
             `;
@@ -152,25 +177,29 @@
             let html = '';
 
             filas.forEach((fila, index) => {
-                const producto = fila.querySelector('.producto-select option:checked').text;
+                const selectElement = fila.querySelector('.producto-select');
+                const selectedOption = selectElement ? selectElement.querySelector('option:checked') : null;
+                const producto = selectedOption ? selectedOption.text : 'Producto no seleccionado';
                 const cantidad = parseFloat(fila.querySelector('.cantidad-input').value) || 0;
                 const valorUnitario = parseFloat(fila.querySelector('.valor-input').value) || 0;
                 const subtotal = cantidad * valorUnitario;
                 total += subtotal;
 
-                html += `
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h6 class="mb-0 text-sm">${producto}</h6>
-                            <p class="text-xs text-secondary mb-0">${cantidad} x $${valorUnitario.toFixed(2)}</p>
+                if (selectedOption && cantidad > 0 && valorUnitario > 0) {
+                    html += `
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="mb-0 text-sm">${producto}</h6>
+                                <p class="text-xs text-secondary mb-0">${cantidad} x $${formatearMoneda(valorUnitario)}</p>
+                            </div>
+                            <h6 class="mb-0">$${formatearMoneda(subtotal)}</h6>
                         </div>
-                        <h6 class="mb-0">$${subtotal.toFixed(2)}</h6>
-                    </div>
-                `;
+                    `;
+                }
             });
 
             resumenContainer.innerHTML = html;
-            document.getElementById('total-venta').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('total-venta').textContent = `$${formatearMoneda(total)}`;
         }
 
         // Agregar event listeners para actualizar el resumen

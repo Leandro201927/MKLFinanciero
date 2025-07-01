@@ -86,31 +86,39 @@
                                 </div>
                             </div>
                             <div class="pb-3 d-sm-flex align-items-center">
-                              <!--
-                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable1"
-                                        autocomplete="off" checked>
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable1">All</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable2"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable2">Monitored</label>
-                                    <input type="radio" class="btn-check" name="btnradiotable" id="btnradiotable3"
-                                        autocomplete="off">
-                                    <label class="btn btn-white px-3 mb-0" for="btnradiotable3">Unmonitored</label>
-                                </div>
-                              -->
-                                <!-- <div class="input-group w-sm-25 ms-auto">
-                                    <span class="input-group-text text-body">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
-                                            fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                            stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z">
-                                            </path>
-                                        </svg>
-                                    </span>
-                                    <input type="text" class="form-control" placeholder="Buscar">
-                                </div> -->
+                                <form method="GET" action="{{ route('gasto') }}" class="w-100">
+                                    <div class="row g-2">
+                                        <div class="col-md-2">
+                                            <input type="date" name="fecha_desde" class="form-control form-control-sm" placeholder="Fecha desde" value="{{ request('fecha_desde') }}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <input type="date" name="fecha_hasta" class="form-control form-control-sm" placeholder="Fecha hasta" value="{{ request('fecha_hasta') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px"
+                                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                                        stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z">
+                                                        </path>
+                                                    </svg>
+                                                </span>
+                                                <input type="text" name="buscar" class="form-control" placeholder="Buscar por código o descripción" value="{{ request('buscar') }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-sm btn-dark">Filtrar</button>
+                                            <a href="{{ route('gasto') }}" class="btn btn-sm btn-outline-secondary">Limpiar</a>
+                                        </div>
+                                        <div class="col-md-2 text-end">
+                                            <a href="{{ route('gasto.exportar') }}" class="btn btn-sm btn-success">
+                                                <i class="fa fa-download"></i> Exportar CSV
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         <div class="card-body px-0 py-0">
@@ -121,6 +129,7 @@
                                           <th class="text-secondary text-xs font-weight-semibold opacity-7">ID</th>
                                           <th class="text-secondary text-xs font-weight-semibold opacity-7 ps-2">Código</th>
                                           <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Descripcion</th>
+                                          <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Productos/Servicios</th>
                                           <th class="text-center text-secondary text-xs font-weight-semibold opacity-7">Fecha_Gasto</th>
                                           <th class="text-secondary text-xs font-weight-     opacity-7">Acciones</th>
                                       </tr>
@@ -140,6 +149,25 @@
                                               </td>
                                               <td class="align-middle text-center text-sm">
                                                   <span class="text-secondary text-sm font-weight-normal">{{ $gasto->Descripcion }}</span>
+                                              </td>
+                                              <td class="align-middle text-center">
+                                                  @if($gasto->productos && $gasto->productos->count() > 0)
+                                                      <div class="d-flex flex-column">
+                                                          @foreach($gasto->productos as $producto)
+                                                              <small class="text-dark mb-1">
+                                                                  <strong>{{ $producto->Nombre }}</strong>
+                                                                  @if($producto->Descripcion && ($producto->Tipo === 'gasto' || $producto->Tipo === 'servicio'))
+                                                                      <br><em class="text-muted">{{ $producto->Descripcion }}</em>
+                                                                  @endif
+                                                                  @if($producto->Tipo === 'producto')
+                                                                      <br><span class="badge bg-light text-dark">Cant: {{ $producto->pivot->Cantidad_Productos }}</span>
+                                                                  @endif
+                                                              </small>
+                                                          @endforeach
+                                                      </div>
+                                                  @else
+                                                      <span class="text-muted">-</span>
+                                                  @endif
                                               </td>
                                               <td class="align-middle text-center">
                                                   <span class="text-secondary text-sm font-weight-normal">{{ $gasto->Fecha_Gasto }}</span>

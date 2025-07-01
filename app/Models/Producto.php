@@ -16,7 +16,14 @@ class Producto extends Model
     protected $fillable = [
         'UsuarioID',
         'Nombre',
-        'Cantidad'
+        'Cantidad',
+        'Tipo',
+        'Clasificacion',
+        'Descripcion'
+    ];
+
+    protected $casts = [
+        'Clasificacion' => 'array'
     ];
 
     public function usuario()

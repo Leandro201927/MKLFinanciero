@@ -146,7 +146,7 @@
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="mb-0">Total:</h6>
-                                <h6 class="mb-0" id="total-venta">$0.00</h6>
+                                <h6 class="mb-0" id="total-venta">$0,00</h6>
                             </div>
                         </div>
                     </div>
@@ -156,6 +156,13 @@
     </main>
 
     <script>
+        function formatearMoneda(valor) {
+            return parseFloat(valor).toLocaleString('es-ES', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+        
         function eliminarFila(button) {
             const fila = button.closest('.row');
             fila.remove();
@@ -165,25 +172,26 @@
         function agregarFila() {
             const fila = `
                 <div class="row mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label>Producto:</label>
                         <select name="productos[]" class="form-control producto-select">
+                            <option value="">Seleccionar producto...</option>
                             @foreach ($productosDisponibles as $producto)
                                 <option value="{{ $producto->ID }}">
-                                    {{ $producto->Nombre }}
+                                    {{ $producto->Nombre }} (Stock: {{ $producto->Cantidad }})
                                 </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label>Cantidad:</label>
-                        <input type="number" name="cantidades[]" min="1" value="1" class="form-control cantidad-input" placeholder="Cantidad">
+                        <input type="number" name="cantidades[]" min="1" value="1" class="form-control cantidad-input" placeholder="Cantidad a vender">
                     </div>
                     <div class="col-md-3">
                         <label>Valor Unitario:</label>
-                        <input type="number" name="valores_unitarios[]" min="0" step="0.01" value="0" class="form-control valor-input" placeholder="Valor Unitario">
+                        <input type="number" name="valores_unitarios[]" min="0" step="0.01" value="0" class="form-control valor-input" placeholder="Precio de venta">
                     </div>
-                    <div class="col-md-3 d-flex align-items-end">
+                    <div class="col-md-2 d-flex align-items-end">
                         <button type="button" class="btn btn-danger w-100" onclick="eliminarFila(this)">Eliminar</button>
                     </div>
                 </div>
@@ -199,25 +207,29 @@
             let html = '';
 
             filas.forEach((fila, index) => {
-                const producto = fila.querySelector('.producto-select option:checked').text;
+                const selectElement = fila.querySelector('.producto-select');
+                const selectedOption = selectElement ? selectElement.querySelector('option:checked') : null;
+                const producto = selectedOption ? selectedOption.text : 'Producto no seleccionado';
                 const cantidad = parseFloat(fila.querySelector('.cantidad-input').value) || 0;
                 const valorUnitario = parseFloat(fila.querySelector('.valor-input').value) || 0;
                 const subtotal = cantidad * valorUnitario;
                 total += subtotal;
 
-                html += `
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
-                            <h6 class="mb-0 text-sm">${producto}</h6>
-                            <p class="text-xs text-secondary mb-0">${cantidad} x $${valorUnitario.toFixed(2)}</p>
+                if (selectedOption && cantidad > 0 && valorUnitario > 0) {
+                    html += `
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h6 class="mb-0 text-sm">${producto}</h6>
+                                <p class="text-xs text-secondary mb-0">${cantidad} x $${formatearMoneda(valorUnitario)}</p>
+                            </div>
+                            <h6 class="mb-0">$${formatearMoneda(subtotal)}</h6>
                         </div>
-                        <h6 class="mb-0">$${subtotal.toFixed(2)}</h6>
-                    </div>
-                `;
+                    `;
+                }
             });
 
             resumenContainer.innerHTML = html;
-            document.getElementById('total-venta').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('total-venta').textContent = `$${formatearMoneda(total)}`;
         }
 
         // Agregar event listeners para actualizar el resumen
