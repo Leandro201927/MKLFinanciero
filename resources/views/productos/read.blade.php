@@ -35,7 +35,7 @@
                                     ];
                                     $tipoColor = $tipoColors[$producto->Tipo] ?? 'bg-secondary';
                                 @endphp
-                                <span class="badge {{ $tipoColor }} text-white">{{ ucfirst($producto->Tipo ?? 'N/A') }}</span>
+                                <span class="badge {{ $tipoColor }} text-dark">{{ ucfirst($producto->Tipo ?? 'N/A') }}</span>
                             </td>
                             <td class="align-middle text-center">
                                 <span class="text-secondary text-sm font-weight-normal">
@@ -166,7 +166,7 @@
                                             <button type="submit" class="btn btn-sm btn-dark">Filtrar</button>
                                             <a href="{{ route('producto') }}" class="btn btn-sm btn-outline-secondary">Limpiar</a>
                                         </div>
-                                        <div class="col-md-2 text-end">
+                                        <div class="col-md-2 text-end" style="display: none;">
                                             <a href="{{ route('producto.exportar') }}" class="btn btn-sm btn-success">
                                                 <i class="fa fa-download"></i> Exportar CSV
                                             </a>
@@ -212,7 +212,7 @@
                                                         ];
                                                         $tipoColor = $tipoColors[$producto->Tipo] ?? 'bg-secondary';
                                                     @endphp
-                                                    <span class="badge {{ $tipoColor }} text-white">{{ ucfirst($producto->Tipo ?? 'N/A') }}</span>
+                                                    <span class="badge {{ $tipoColor }} text-dark">{{ ucfirst($producto->Tipo ?? 'N/A') }}</span>
                                                 </td>
                                                 <td class="align-middle text-center">
                                                     <span class="text-secondary text-sm font-weight-normal">

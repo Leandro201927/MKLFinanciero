@@ -14,6 +14,7 @@ class ExampleTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertStatus(200);
+        // La ruta raíz redirige a la página de login cuando el usuario no está autenticado
+        $response->assertStatus(302);
     }
 }

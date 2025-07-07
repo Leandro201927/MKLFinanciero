@@ -26,6 +26,6 @@ class ProductoGasto extends Model
 
     public function gasto()
     {
-        return $this->belongsTo(Gasto::class, 'VentaID');
+        return $this->belongsTo(Gasto::class, 'MovimientoID');
     }
 }

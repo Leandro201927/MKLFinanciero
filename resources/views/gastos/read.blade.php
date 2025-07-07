@@ -112,7 +112,7 @@
                                             <button type="submit" class="btn btn-sm btn-dark">Filtrar</button>
                                             <a href="{{ route('gasto') }}" class="btn btn-sm btn-outline-secondary">Limpiar</a>
                                         </div>
-                                        <div class="col-md-2 text-end">
+                                        <div class="col-md-2 text-end" style="display: none;">
                                             <a href="{{ route('gasto.exportar') }}" class="btn btn-sm btn-success">
                                                 <i class="fa fa-download"></i> Exportar CSV
                                             </a>
@@ -153,14 +153,14 @@
                                               <td class="align-middle text-center">
                                                   @if($gasto->productos && $gasto->productos->count() > 0)
                                                       <div class="d-flex flex-column">
-                                                          @foreach($gasto->productos as $producto)
+                                                          @foreach($gasto->productos as $productoGasto)
                                                               <small class="text-dark mb-1">
-                                                                  <strong>{{ $producto->Nombre }}</strong>
-                                                                  @if($producto->Descripcion && ($producto->Tipo === 'gasto' || $producto->Tipo === 'servicio'))
-                                                                      <br><em class="text-muted">{{ $producto->Descripcion }}</em>
+                                                                  <strong>{{ $productoGasto->producto->Nombre }}</strong>
+                                                                  @if($productoGasto->producto->Descripcion && ($productoGasto->producto->Tipo === 'gasto' || $productoGasto->producto->Tipo === 'servicio'))
+                                                                      <br><em class="text-muted">{{ $productoGasto->producto->Descripcion }}</em>
                                                                   @endif
-                                                                  @if($producto->Tipo === 'producto')
-                                                                      <br><span class="badge bg-light text-dark">Cant: {{ $producto->pivot->Cantidad_Productos }}</span>
+                                                                  @if($productoGasto->producto->Tipo === 'producto')
+                                                                      <br><span class="badge bg-light text-dark">Cant: {{ $productoGasto->Cantidad_Productos }}</span>
                                                                   @endif
                                                               </small>
                                                           @endforeach
